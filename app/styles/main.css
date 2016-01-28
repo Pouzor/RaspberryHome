@@ -1,0 +1,32 @@
+body {
+    background: #F3F3F3;
+}
+
+.footer {
+    background-color: #333;
+    height: 30px;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    z-index: 1000;
+
+}
+
+.text-center tr td, .text-center tr th {
+    text-align: center;
+}
+
+.white tr td, .white tr th{
+    background-color: white;
+}
+
+.breadcrumb {
+    background-color:white;
+    border: 1px solid #ccc;
+}
+
+
+
+.result {
+    margin-bottom: 30px;
+}
