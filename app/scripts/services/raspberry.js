@@ -1,8 +1,8 @@
 'use strict';
 
-app.factory('Database', function ($resource, CONFIG) {
+app.factory('Raspberry', function ($resource, CONFIG) {
 
-    return $resource(CONFIG.URL+'/api/database/:id',
+    return $resource(CONFIG.URL+'/api/raspberry/:id',
         { },{
             get :{method: 'get', isArray:true, cache: false},
             findOne: {method: 'get', isArray:false, cache: false}

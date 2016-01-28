@@ -35,7 +35,7 @@ app.post('/api/authenticate', function (req, res) {
 
 
 // Get all databases
-app.get('/api/database', function (req, res) {
+app.get('/api/raspberry', function (req, res) {
 
 
 });

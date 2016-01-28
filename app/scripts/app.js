@@ -7,7 +7,6 @@ var app = angular.module('RaspHomeApp', [
     'ngRoute',
     'ui.sortable',
     'RaspHomeApp.config',
-    'ngPrettyJson',
     'btford.socket-io'
 ]);
 
@@ -23,10 +22,6 @@ app.config(function ($routeProvider) {
         .when('/', {
             templateUrl: 'views/index.html',
             controller: 'IndexCtrl'
-        })
-        .when('/database/:name', {
-            templateUrl: 'views/database.html',
-            controller: 'DatabaseCtrl'
         })
         .when('/login', {
             controller: 'LoginController',
