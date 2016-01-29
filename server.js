@@ -26,9 +26,13 @@ var server = http.createServer(app);
 io = io.listen(server);
 server.listen(port);
 
+var j = schedule.scheduleJob('*/5 * * * *', function(){
+    console.log('Check temperature');
+    exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
+       //Check temp from external captor$^^^^^^TODO
+    });
 
-
-
+});
 
 function getTemperature() {
     exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
