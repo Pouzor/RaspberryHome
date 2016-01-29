@@ -12,7 +12,7 @@ var config = require('./config');
 var exec = require('child_process').exec;
 var argv = require('minimist')(process.argv.slice(2));  //Get Argument pass to server.js
 var port = argv.p ? argv.p : config.port;
-
+var schedule = require('node-schedule');
 
 app.disable('etag');
 app.use(express.static(__dirname + '/app')); 		// set the static files location /public/img will be /img for users
@@ -25,6 +25,9 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 var server = http.createServer(app);
 io = io.listen(server);
 server.listen(port);
+
+
+
 
 
 function getTemperature() {
@@ -50,7 +53,7 @@ function getCpu() {
                 cpu: 0
             });
         }
-        
+
         io.emit('cpu', {
             cpu: stdout
         });
@@ -63,7 +66,11 @@ var infos = {};
         infos.uname = uname;
         exec("hostname", function (error, hostname, stderr) {
             infos.hostname = hostname;
-            io.emit('infos', infos);
+            exec("uptime | tail -n 1 | awk '{print $3 $4}'",function (error, uptime, stderr) {
+                infos.uptime = uptime;
+                io.emit('infos', infos);
+            })
+
         });
     });
 }
