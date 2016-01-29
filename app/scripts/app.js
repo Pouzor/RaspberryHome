@@ -10,7 +10,7 @@ var app = angular.module('RaspHomeApp', [
     'btford.socket-io'
 ]);
 
-app.factory('mongoSocket', function (socketFactory) {
+app.factory('socket', function (socketFactory) {
     var socket = socketFactory();
     socket.forward('broadcast');
 

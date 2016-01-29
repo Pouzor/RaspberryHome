@@ -1,49 +1,70 @@
-<div class="row">
-    <div class="col-md-3">
-        <div  ng-controller="IndexCtrl">
-ciuciy
-            <div id="chart_div" style="width: 400px; height: 120px;"></div>
+<div ng-controller="IndexCtrl">
+    <div class="container">
+        <div class="row marketing">
+            <div class="col-lg-4">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">General info</div>
+                    <div class="panel-body"><p id="p_hostname"><b>Hostname : </b>{{infos.hostname}}
+                    </p>
 
+                        <p id="p_kernel"><b>Kernel : </b>{{infos.uname}}</p>
 
-            <script type="text/javascript">
-                google.charts.load('current', {'packages':['gauge']});
-                google.charts.setOnLoadCallback(drawChart);
-                function drawChart() {
+                        <p id="p_uptime"></p>
 
-                    var data = google.visualization.arrayToDataTable([
-                        ['Label', 'Value'],
-                        ['Memory', 80],
-                        ['CPU', 55],
-                        ['Temp', 68]
-                    ]);
-
-                    var options = {
-                        width: 600, height: 180,
-                        redFrom: 90, redTo: 100,
-                        yellowFrom:75, yellowTo: 90,
-                        minorTicks: 5
-                    };
-
-                    var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-                    chart.draw(data, options);
-
-                    setInterval(function() {
-                        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-                        chart.draw(data, options);
-                    }, 13000);
-                    setInterval(function() {
-                        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-                        chart.draw(data, options);
-                    }, 5000);
-                    setInterval(function() {
-                        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-                        chart.draw(data, options);
-                    }, 26000);
-                }
-            </script>
-
+                        <div>
+                            <b>Top list:</b>
+                            <ol id="toplist">
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div id="chart_div" style="width: 300px; height: 50px;"></div>
+            </div>
         </div>
-
     </div>
+
+
+    <script type="text/javascript">
+        google.charts.load('current', {'packages': ['gauge']});
+        function initJs() {
+            google.charts.setOnLoadCallback(drawChart);
+        }
+
+        function drawChart() {
+
+            var data = google.visualization.arrayToDataTable([
+                ['Label', 'Value'],
+                ['Memory', 80],
+                ['CPU', $('[ng-controller="IndexCtrl"]').scope().cpu],
+                ['Temp', $('[ng-controller="IndexCtrl"]').scope().temperature]
+            ]);
+
+            var options = {
+                width: 600, height: 180,
+                redFrom: 90, redTo: 100,
+                yellowFrom: 75, yellowTo: 90,
+                minorTicks: 5
+            };
+
+            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+
+//                    setInterval(function() {
+//                        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
+//                        chart.draw(data, options);
+//                    }, 13000);
+//                    setInterval(function() {
+//                        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
+//                        chart.draw(data, options);
+//                    }, 5000);
+//                    setInterval(function() {
+//                        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
+//                        chart.draw(data, options);
+//                    }, 26000);
+        }
+    </script>
+
 </div>
