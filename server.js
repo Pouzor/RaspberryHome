@@ -85,8 +85,10 @@ var infos = {};
 
 app.post('/api/authenticate', function (req, res) {
     if (req.body.username == config.auth.username && req.body.password == config.auth.password) {
+        console.log("Success");
         res.json({success: true});
     } else {
+        console.log("Echec");
         res.json({});
     }
 
