@@ -82,7 +82,7 @@ var infos = {};
 
 
 function getHomeTemp() {
-	 exec("python Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+	 exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
 	   
 	   console.log(stdout);
 	   var data = stdout.split(" ");
