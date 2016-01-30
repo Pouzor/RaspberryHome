@@ -84,7 +84,7 @@ var infos = {};
 function getHomeTemp() {
 	 exec("python Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
 	   
-	   console.log(sdout);
+	   console.log(stdout);
 	   var data = stdout.split(" ");
 	   console.log(data);
 	    io.emit('home', {
