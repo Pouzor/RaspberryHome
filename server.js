@@ -88,8 +88,8 @@ function getHomeTemp() {
 	   var data = stdout.split(" ");
 	   console.log(data);
 	    io.emit('home', {
-            temperature : data[2],
-			humidity : data[6]
+            temperature : data[4],
+			humidity : data[8]
         });
     });
 }
