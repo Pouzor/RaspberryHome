@@ -21,6 +21,9 @@ app.use(bodyParser.urlencoded({extended: true})); // pull information from html 
 app.use(bodyParser.json()); // parse application/json
 app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
+//sudo ./chacon_send 6 12325261 1 on
+// sudo python Adafruit_DHT.py  22 4
+
 
 var server = http.createServer(app);
 io = io.listen(server);
