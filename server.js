@@ -83,8 +83,10 @@ var infos = {};
 
 function getHomeTemp() {
 	 exec("python Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
-	   var data = stdout.split(" ");
 	   
+	   console.log(sdout);
+	   var data = stdout.split(" ");
+	   console.log(data);
 	    io.emit('home', {
             temperature : data[2],
 			humidity : data[6]
