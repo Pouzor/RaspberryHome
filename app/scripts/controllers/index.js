@@ -5,7 +5,8 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.emit('get-temp');
     socket.emit('get-cpu');
     socket.emit('get-infos');
-
+	socket.emit('get-home');
+	
     socket.on('temperature', function(data) {
         $scope.$apply(function () {
             $scope.temperature = data.temp;
@@ -29,5 +30,13 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     });
 
 
+	socket.on('home', function(data) {
+        $scope.$apply(function () {
+            $scope.home = data;
+            initJs();
+
+        });
+    });
+	
 });
 

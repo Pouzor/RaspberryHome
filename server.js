@@ -31,9 +31,7 @@ server.listen(port);
 
 var j = schedule.scheduleJob('*/5 * * * *', function(){
     console.log('Check temperature');
-    exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
-       //Check temp from external captor$^^^^^^TODO
-    });
+   
 
 });
 
@@ -83,6 +81,17 @@ var infos = {};
 }
 
 
+function getHomeTemp() {
+	 exec("python Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+	   var data = stdout.split(" ");
+	   
+	    io.emit('home', {
+            temperature : data[2],
+			humidity : data[6]
+        });
+    });
+}
+
 // ============================== Webservices =================================== //
 
 
@@ -112,6 +121,10 @@ io.on('connection', function (socket) {
     socket.on('get-infos', function(data) {
         getInfos();
     });
+	
+	socket.on('get-home', function(data) {
+		getHomeTemp();
+	});
 
 
 });
