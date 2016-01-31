@@ -80,7 +80,7 @@ function getMem() {
                 mem: 0
             });
         }
-
+        stdout = stdout.replace(/ +(?= )/g,' ');
 		var data = stdout.split(" ");
 		
 		console.log(data);
