@@ -41,7 +41,7 @@
 
             var data = google.visualization.arrayToDataTable([
                 ['Label', 'Value'],
-                ['Memory', 80],
+                ['Memory', $('[ng-controller="IndexCtrl"]').scope().mem],
                 ['CPU', $('[ng-controller="IndexCtrl"]').scope().cpu],
                 ['Temp', $('[ng-controller="IndexCtrl"]').scope().temperature]
             ]);

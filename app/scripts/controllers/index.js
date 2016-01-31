@@ -6,6 +6,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.emit('get-cpu');
     socket.emit('get-infos');
 	socket.emit('get-home');
+	socket.emit('get-mem');
 	
     socket.on('temperature', function(data) {
         $scope.$apply(function () {
@@ -21,10 +22,17 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
         });
     });
 
+	socket.on('mem', function(data) {
+        $scope.$apply(function () {
+            $scope.mem = (data.memUsed / data.memTotal) * 100;
+            initJs();
+        });
+    });
+	
     socket.on('infos', function(data) {
         $scope.$apply(function () {
             $scope.infos = data;
-            initJs();
+           
 
         });
     });
@@ -33,8 +41,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	socket.on('home', function(data) {
         $scope.$apply(function () {
             $scope.home = data;
-            initJs();
-
+          
         });
     });
 	

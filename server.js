@@ -72,6 +72,24 @@ function getCpu() {
     });
 }
 
+function getMem() {
+    exec("free -m", function (error, stdout, stderr) {
+        if (error) {
+            console.log(error);
+            io.emit('mem', {
+                mem: 0
+            });
+        }
+
+		var data = stdout.split(" ");
+		
+        io.emit('mem', {
+            memTotal: data[7],
+			memUsed: data[8]
+        });
+    });
+}
+
 function getInfos() {
 var infos = {};
     exec("uname -r", function (error, uname, stderr) {
@@ -132,7 +150,10 @@ io.on('connection', function (socket) {
 		getHomeTemp();
 	});
 
-
+	socket.on('get-mem', function(data) {
+		getMem();
+	});
+	
 });
 
 
