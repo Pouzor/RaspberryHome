@@ -83,6 +83,8 @@ function getMem() {
 
 		var data = stdout.split(" ");
 		
+		console.log(data);
+		
         io.emit('mem', {
             memTotal: data[7],
 			memUsed: data[8]
