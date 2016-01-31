@@ -30,8 +30,15 @@ io = io.listen(server);
 server.listen(port);
 
 var j = schedule.scheduleJob('*/5 * * * *', function(){
-    console.log('Check temperature');
-   
+    
+    exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+	   var data = stdout.split(" ");
+	    data =  {
+            temperature : data[4],
+			humidity : data[8]
+        };
+		console.log(data);
+    });
 
 });
 
@@ -83,10 +90,7 @@ var infos = {};
 
 function getHomeTemp() {
 	 exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
-	   
-	   console.log(stdout);
 	   var data = stdout.split(" ");
-	   console.log(data);
 	    io.emit('home', {
             temperature : data[4],
 			humidity : data[8]
