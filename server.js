@@ -83,11 +83,9 @@ function getMem() {
         stdout = stdout.replace(/ +(?= )/g,' ');
 		var data = stdout.split(" ");
 		
-		console.log(data);
-		
         io.emit('mem', {
-            memTotal: data[7],
-			memUsed: data[8]
+            memTotal: data[14],
+			memUsed: data[16]
         });
     });
 }
