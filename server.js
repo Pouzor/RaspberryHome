@@ -25,6 +25,14 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 // sudo python Adafruit_DHT.py  22 4
 
 
+var mode = 1;
+var modeTemp = {
+	confort : 20,
+	eco : 17
+};
+
+
+
 var server = http.createServer(app);
 io = io.listen(server);
 server.listen(port);
@@ -153,6 +161,18 @@ io.on('connection', function (socket) {
 	socket.on('get-mem', function(data) {
 		getMem();
 	});
+	
+	socket.on('get-mode', function(data) {
+		io.emit('mode', {
+            mode : mode,
+			temp : modeTemp[mode]
+        });
+	});
+	
+	socket.on('set-mode', function(data) {
+		mode = data.mode
+		
+	});	
 	
 });
 

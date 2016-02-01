@@ -7,6 +7,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.emit('get-infos');
 	socket.emit('get-home');
 	socket.emit('get-mem');
+	socket.emit('get-mode');
 	
     socket.on('temperature', function(data) {
         $scope.$apply(function () {
@@ -41,6 +42,14 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	socket.on('home', function(data) {
         $scope.$apply(function () {
             $scope.home = data;
+          
+        });
+    });
+	
+	socket.on('mode', function(data) {
+        $scope.$apply(function () {
+            $scope.mode = data.mode;
+			$scode.modeTemperature = data.temp;
           
         });
     });
