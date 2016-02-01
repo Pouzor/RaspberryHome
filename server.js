@@ -163,6 +163,9 @@ io.on('connection', function (socket) {
 	});
 	
 	socket.on('get-mode', function(data) {
+		console.log(modeTemp);
+		console.log(mode);
+		console.log(modeTemp[mode]);
 		io.emit('mode', {
             mode : mode,
 			temp : modeTemp[mode]
