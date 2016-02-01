@@ -25,7 +25,7 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 // sudo python Adafruit_DHT.py  22 4
 
 
-var mode = 1;
+var mode = "confort;
 var modeTemp = {
 	confort : 20,
 	eco : 17
