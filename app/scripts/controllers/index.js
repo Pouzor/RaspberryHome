@@ -48,10 +48,8 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	
 	socket.on('mode', function(data) {
         $scope.$apply(function () {
-			console.log(data);
             $scope.mode = data.mode;
-			$scode.modeTemperature = data.temp;
-          
+			$scope.modeTemperature = data.temp;
         });
     });
 	
