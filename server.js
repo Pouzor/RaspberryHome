@@ -27,10 +27,9 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
 var mode = "confort";
 var modeTemp = {
-	"confort" : 20,
-	"eco" : 17
+    "confort": 20,
+    "eco": 17
 };
-
 
 
 var server = http.createServer(app);
@@ -41,16 +40,16 @@ var execOpts = {
     timeout: 5000
 };
 
-var j = schedule.scheduleJob('*/5 * * * *', function(){
-    
-    exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
-	   var data = stdout.split(" ");
-	    data =  {
-            temperature : data[4],
-			humidity : data[8]
-        };
-		console.log(data);
-    });
+var j = schedule.scheduleJob('*/5 * * * *', function () {
+
+    //exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
+    //    var data = stdout.split(" ");
+    //    data = {
+    //        temperature: data[4],
+    //        humidity: data[8]
+    //    };
+    //    console.log(data);
+    //});
 
 });
 
@@ -92,23 +91,23 @@ function getMem() {
                 mem: 0
             });
         }
-        stdout = stdout.replace(/ +(?= )/g,' ');
-		var data = stdout.split(" ");
-		
+        stdout = stdout.replace(/ +(?= )/g, ' ');
+        var data = stdout.split(" ");
+
         io.emit('mem', {
             memTotal: data[14],
-			memUsed: data[16]
+            memUsed: data[16]
         });
     });
 }
 
 function getInfos() {
-var infos = {};
+    var infos = {};
     exec("uname -r", function (error, uname, stderr) {
         infos.uname = uname;
         exec("hostname", function (error, hostname, stderr) {
             infos.hostname = hostname;
-            exec("uptime | tail -n 1 | awk '{print $3 $4}'",function (error, uptime, stderr) {
+            exec("uptime | tail -n 1 | awk '{print $3 $4}'", function (error, uptime, stderr) {
                 infos.uptime = uptime;
                 io.emit('infos', infos);
             })
@@ -119,11 +118,13 @@ var infos = {};
 
 
 function getHomeTemp() {
-	 exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
-	   var data = stdout.split(" ");
-	    io.emit('home', {
-            temperature : data[4],
-			humidity : data[8]
+    console.log('Call get Home TEMP');
+    exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
+        console.log('Exec get Home TEMP');
+        var data = stdout.split(" ");
+        io.emit('home', {
+            temperature: data[4],
+            humidity: data[8]
         });
     });
 }
@@ -146,38 +147,38 @@ app.post('/api/authenticate', function (req, res) {
 io.on('connection', function (socket) {
     console.log("Socket on");
 
-    socket.on('get-temp', function(data) {
-       getTemperature();
+    socket.on('get-temp', function (data) {
+        getTemperature();
     });
 
-    socket.on('get-cpu', function(data) {
+    socket.on('get-cpu', function (data) {
         getCpu();
     });
 
-    socket.on('get-infos', function(data) {
+    socket.on('get-infos', function (data) {
         getInfos();
     });
-	
-	socket.on('get-home', function(data) {
-		getHomeTemp();
-	});
 
-	socket.on('get-mem', function(data) {
-		getMem();
-	});
-	
-	socket.on('get-mode', function(data) {
-		io.emit('mode', {
-            mode : mode,
-			temp : modeTemp[mode]
+    socket.on('get-home', function (data) {
+        getHomeTemp();
+    });
+
+    socket.on('get-mem', function (data) {
+        getMem();
+    });
+
+    socket.on('get-mode', function (data) {
+        io.emit('mode', {
+            mode: mode,
+            temp: modeTemp[mode]
         });
-	});
-	
-	socket.on('set-mode', function(data) {
-		mode = data.mode
-		
-	});	
-	
+    });
+
+    socket.on('set-mode', function (data) {
+        mode = data.mode
+
+    });
+
 });
 
 
