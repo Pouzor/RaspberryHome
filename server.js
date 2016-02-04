@@ -151,7 +151,7 @@ function getHomeTemp() {
 
     setTimeout(function () {
         child.kill();
-    }, 3500);
+    }, 5000);
 
 }
 
