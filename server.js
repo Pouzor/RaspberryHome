@@ -135,6 +135,7 @@ function getHomeTemp() {
 
     child.stdout.on('data', function (data) {
         data = data.split(" ");
+        console.log(data);
         if (data[4] && data[8] && data[0] == 'Temp') {
                 io.emit('home', {
                     temperature: data[4],
