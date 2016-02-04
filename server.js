@@ -144,6 +144,10 @@ function getHomeTemp() {
 
     });
 
+    child.on('exit', function (exitCode) {
+        console.log("Child exited with code: " + exitCode);
+    });
+
     setTimeout(function () {
         child.kill();
     }, 3500);
