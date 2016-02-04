@@ -120,7 +120,7 @@ function getInfos() {
 
 function getHomeTemp() {
     console.log('Call get Home TEMP');
-    var child = spawn("/usr/bin/python scripts/Adafruit_DHT.py  22 4"); //, function (error, stdout, stderr) {
+    var child = spawn("python", ["scripts/Adafruit_DHT.py  22 4"]); //, function (error, stdout, stderr) {
     //    console.log('Exec get Home TEMP');
     //    var data = stdout.split(" ");
     //
