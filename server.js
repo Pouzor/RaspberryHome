@@ -37,7 +37,7 @@ io = io.listen(server);
 server.listen(port);
 
 var execOpts = {
-    timeout: 5000
+    timeout: 500
 };
 
 var j = schedule.scheduleJob('*/5 * * * *', function () {
