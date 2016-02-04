@@ -120,43 +120,22 @@ function getInfos() {
 
 function getHomeTemp() {
     console.log('Call get Home TEMP');
-    var child = spawn("python", ["scripts/Adafruit_DHT.py",  "22", "4"]); //, function (error, stdout, stderr) {
-    //    console.log('Exec get Home TEMP');
-    //    var data = stdout.split(" ");
-    //
-    //    if (data[4] && data[8])
-    //        io.emit('home', {
-    //            temperature: data[4],
-    //            humidity: data[8]
-    //        });
-    //});
+    var child = exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+        console.log('Exec get Home TEMP');
+        var data = stdout.split(" ");
 
-
-
-    child.stdout.on('data', function (data) {
-        console.log(data);
-        data = data.split(" ");
-        if (data[4] && data[8] && data[0] == 'Temp') {
-                io.emit('home', {
-                    temperature: data[4],
-                    humidity: data[8]
-                });
-        };
-
+        if (data[4] && data[8])
+            io.emit('home', {
+                temperature: data[4],
+                humidity: data[8]
+            });
     });
 
-    child.stderr.on('data', function (data) {
-        //throw errors
-        console.log('stderr: ' + data);
-    });
-
-    child.on('exit', function (exitCode) {
-        console.log("Child exited with code: " + exitCode);
-    });
 
     setTimeout(function () {
         child.kill();
     }, 5000);
+
 
 }
 
