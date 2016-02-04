@@ -122,10 +122,12 @@ function getHomeTemp() {
     exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
         console.log('Exec get Home TEMP');
         var data = stdout.split(" ");
-        io.emit('home', {
-            temperature: data[4],
-            humidity: data[8]
-        });
+
+        if (data[4] && data[8])
+            io.emit('home', {
+                temperature: data[4],
+                humidity: data[8]
+            });
     });
 }
 
