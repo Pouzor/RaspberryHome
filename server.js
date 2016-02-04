@@ -10,6 +10,7 @@ var methodOverride = require('method-override');
 var morgan = require('morgan'); // logguer
 var config = require('./config');
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var argv = require('minimist')(process.argv.slice(2));  //Get Argument pass to server.js
 var port = argv.p ? argv.p : config.port;
 var schedule = require('node-schedule');
@@ -119,16 +120,34 @@ function getInfos() {
 
 function getHomeTemp() {
     console.log('Call get Home TEMP');
-    exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
-        console.log('Exec get Home TEMP');
-        var data = stdout.split(" ");
+    var child = spawn("python scripts/Adafruit_DHT.py  22 4"); //, function (error, stdout, stderr) {
+    //    console.log('Exec get Home TEMP');
+    //    var data = stdout.split(" ");
+    //
+    //    if (data[4] && data[8])
+    //        io.emit('home', {
+    //            temperature: data[4],
+    //            humidity: data[8]
+    //        });
+    //});
 
-        if (data[4] && data[8])
-            io.emit('home', {
-                temperature: data[4],
-                humidity: data[8]
-            });
+
+
+    child.stdout.on('data', function (data) {
+        data = data.split(" ");
+        if (data[4] && data[8] && data[0] == 'Temp') {
+                io.emit('home', {
+                    temperature: data[4],
+                    humidity: data[8]
+                });
+        };
+
     });
+
+    setTimeout(function () {
+        child.kill();
+    }, 3500);
+
 }
 
 // ============================== Webservices =================================== //
