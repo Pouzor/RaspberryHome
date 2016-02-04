@@ -145,6 +145,11 @@ function getHomeTemp() {
 
     });
 
+    child.stderr.on('data', function (data) {
+        //throw errors
+        console.log('stderr: ' + data);
+    });
+
     child.on('exit', function (exitCode) {
         console.log("Child exited with code: " + exitCode);
     });
