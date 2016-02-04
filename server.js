@@ -37,9 +37,13 @@ var server = http.createServer(app);
 io = io.listen(server);
 server.listen(port);
 
+var execOpts = {
+    timeout: 5
+};
+
 var j = schedule.scheduleJob('*/5 * * * *', function(){
     
-    exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+    exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
 	   var data = stdout.split(" ");
 	    data =  {
             temperature : data[4],
@@ -115,7 +119,7 @@ var infos = {};
 
 
 function getHomeTemp() {
-	 exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+	 exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
 	   var data = stdout.split(" ");
 	    io.emit('home', {
             temperature : data[4],
