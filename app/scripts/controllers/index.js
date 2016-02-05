@@ -8,13 +8,13 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
         temperature : 0,
         humidity: 0
     };
-    initJs();
 
+    socket.emit('get-mem');
     socket.emit('get-temp');
     socket.emit('get-cpu');
     socket.emit('get-infos');
 	socket.emit('get-home');
-	socket.emit('get-mem');
+
 	socket.emit('get-mode');
 	
     socket.on('temperature', function(data) {
@@ -41,8 +41,6 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.on('infos', function(data) {
         $scope.$apply(function () {
             $scope.infos = data;
-           
-
         });
     });
 
