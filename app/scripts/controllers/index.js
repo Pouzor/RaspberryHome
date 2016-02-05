@@ -14,7 +14,6 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.emit('get-cpu');
     socket.emit('get-infos');
 	socket.emit('get-home');
-
 	socket.emit('get-mode');
 	
     socket.on('temperature', function(data) {

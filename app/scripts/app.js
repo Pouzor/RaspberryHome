@@ -20,8 +20,8 @@ app.factory('socket', function (socketFactory) {
 app.config(function ($routeProvider) {
     $routeProvider
         .when('/', {
-            templateUrl: 'views/index.html',
-            controller: 'IndexCtrl'
+            templateUrl: 'views/index.html'
+           // controller: 'IndexCtrl'
         })
         .when('/login', {
             controller: 'LoginController',
