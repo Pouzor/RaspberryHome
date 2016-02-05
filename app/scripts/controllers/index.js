@@ -1,6 +1,13 @@
 'use strict';
 
 app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
+    $scope.mem = 0;
+    $scope.temperature = 0;
+    $scope.cpu = 0;
+    $scope.home = {
+        temperature : 0,
+        humidity: 0
+    };
 
     socket.emit('get-temp');
     socket.emit('get-cpu');
