@@ -8,6 +8,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
         temperature : 0,
         humidity: 0
     };
+    initJs();
 
     socket.emit('get-temp');
     socket.emit('get-cpu');
