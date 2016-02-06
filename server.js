@@ -58,8 +58,8 @@ var j = schedule.scheduleJob('*/5 * * * *', function () {
         var data = stdout.split(" ");
 		
 		if (data[4] && data[8]) {
-			client.writePoint("temperature", {time: new Date(), value: data[4]}, { temperature: 'temperature'}, {precision : 's'}, done);
-			client.writePoint("humidity", {time: new Date(), value: data[8]}, null, { humidity: 'humidity'}, done);
+			client.writePoint("temperature", data[4], { temperature: 'temperature'}, {precision : 's'}, done);
+			client.writePoint("humidity", data[8], null, done);
 			
 		}
         
