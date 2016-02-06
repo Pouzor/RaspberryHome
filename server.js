@@ -37,7 +37,7 @@ var client = influx({
   port : 8086, 
   protocol : 'http', 
   username : 'raspberry',
-  password : 'raspberrypassword',
+  password : 'raspberry',
   database : 'home'
 })
 
@@ -60,6 +60,7 @@ var j = schedule.scheduleJob('*/5 * * * *', function () {
 		if (data[4] && data[8]) {
 			client.writePoint("temperature", {time: new Date(), value: data[4]}, null, {precision : 's'}, done);
 			client.writePoint("humidity", {time: new Date(), value: data[8]}, null, {precision : 's'}, done);
+			
 		}
         
     });
