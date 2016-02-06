@@ -10,7 +10,6 @@ var methodOverride = require('method-override');
 var morgan = require('morgan'); // logguer
 var config = require('./config');
 var exec = require('child_process').exec;
-var spawn = require('child_process').spawn;
 var argv = require('minimist')(process.argv.slice(2));  //Get Argument pass to server.js
 var port = argv.p ? argv.p : config.port;
 var schedule = require('node-schedule');
@@ -54,7 +53,7 @@ var execOpts = {
 
 var j = schedule.scheduleJob('*/5 * * * *', function () {
 
-   var child = exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+   exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
         console.log('Exec get Home TEMP - cron');
         var data = stdout.split(" ");
 		
@@ -65,15 +64,13 @@ var j = schedule.scheduleJob('*/5 * * * *', function () {
         
     });
 
-
-    setTimeout(function () {
-        child.kill();
-    }, 5000);
-
 });
 
-function done() {
-	console.log("Data send");
+function done(err, response) {
+	if (err)
+		console.log('Error : ' + err);
+	
+	console.log("Data send" + response);
 }
 
 function getTemperature() {
