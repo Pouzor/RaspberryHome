@@ -71,7 +71,6 @@ function done(err, response) {
 	if (err)
 		console.log('Error : ' + err);
 	
-	console.log("Data send" + response);
 }
 
 function getTemperature() {
