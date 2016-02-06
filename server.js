@@ -38,7 +38,7 @@ var client = influx({
   protocol : 'http', 
   username : 'raspberry',
   password : 'raspberry',
-  database : 'home2'
+  database : 'home'
 })
 
 
