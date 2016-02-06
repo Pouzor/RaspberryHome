@@ -51,7 +51,7 @@ var execOpts = {
 };
 
 
-var j = schedule.scheduleJob('*/5 * * * *', function () {
+var j = schedule.scheduleJob('*/1 * * * *', function () {
 	console.log('Exec get Home TEMP - cron');
     exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
         
