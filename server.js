@@ -52,12 +52,13 @@ var execOpts = {
 
 
 var j = schedule.scheduleJob('*/5 * * * *', function () {
-
-   exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
-        console.log('Exec get Home TEMP - cron');
+	console.log('Exec get Home TEMP - cron');
+    exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+        
         var data = stdout.split(" ");
 		
 		if (data[4] && data[8]) {
+			console.log('Send data to influx');
 			client.writePoint("temperature", data[4], { temperature: 'temperature'}, {precision : 's'}, done);
 			client.writePoint("humidity", data[8], null, done);
 			
