@@ -14,6 +14,7 @@ var spawn = require('child_process').spawn;
 var argv = require('minimist')(process.argv.slice(2));  //Get Argument pass to server.js
 var port = argv.p ? argv.p : config.port;
 var schedule = require('node-schedule');
+var influx = require('influx');
 
 app.disable('etag');
 app.use(express.static(__dirname + '/app')); 		// set the static files location /public/img will be /img for users
@@ -32,6 +33,15 @@ var modeTemp = {
     "eco": 17
 };
 
+var client = influx({
+  host : 'localhost',
+  port : 8086, 
+  protocol : 'http', 
+  username : 'raspberry',
+  password : 'raspberrypassword',
+  database : 'home'
+})
+
 
 var server = http.createServer(app);
 io = io.listen(server);
@@ -41,18 +51,30 @@ var execOpts = {
     timeout: 2000
 };
 
+
 var j = schedule.scheduleJob('*/5 * * * *', function () {
 
-    //exec("python scripts/Adafruit_DHT.py  22 4", execOpts, function (error, stdout, stderr) {
-    //    var data = stdout.split(" ");
-    //    data = {
-    //        temperature: data[4],
-    //        humidity: data[8]
-    //    };
-    //    console.log(data);
-    //});
+   var child = exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+        console.log('Exec get Home TEMP - cron');
+        var data = stdout.split(" ");
+		
+		if (data[4] && data[8]) {
+			client.writePoint("temperature", {time: new Date(), value: data[4]}, null, {precision : 's'}, done);
+			client.writePoint("humidity", {time: new Date(), value: data[8]}, null, {precision : 's'}, done);
+		}
+        
+    });
+
+
+    setTimeout(function () {
+        child.kill();
+    }, 5000);
 
 });
+
+function done() {
+	console.log("Data send");
+}
 
 function getTemperature() {
     exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
