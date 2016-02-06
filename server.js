@@ -51,8 +51,12 @@ var execOpts = {
 };
 
 
-var j = schedule.scheduleJob('*/1 * * * *', function () {
-	console.log('Exec get Home TEMP - cron');
+var rule = new schedule.RecurrenceRule();
+
+rule.minute = new schedule.Range(0, 59, 5);
+
+schedule.scheduleJob(rule, function(){
+  console.log('Exec get Home TEMP - cron');
     exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
         
         var data = stdout.split(" ");
@@ -65,8 +69,12 @@ var j = schedule.scheduleJob('*/1 * * * *', function () {
 		}
         
     });
-
 });
+
+//var j = schedule.scheduleJob('*/1 * * * *', function () {
+	
+
+//});
 
 function done(err, response) {
 	if (err)
