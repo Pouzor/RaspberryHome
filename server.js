@@ -59,8 +59,8 @@ var j = schedule.scheduleJob('*/5 * * * *', function () {
 		
 		if (data[4] && data[8]) {
 			console.log('Send data to influx');
-			client.writePoint("temperature", data[4], { temperature: 'temperature'}, {precision : 's'}, done);
-			client.writePoint("humidity", data[8], null, done);
+			client.writePoint("temperature", parseFloat(data[4]), { temperature: 'temperature'}, {precision : 's'}, done);
+			client.writePoint("humidity", parseFloat(data[8]), null, done);
 			
 		}
         
