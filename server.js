@@ -39,8 +39,16 @@ var client = influx({
   username : 'raspberry',
   password : 'raspberry',
   database : 'home'
-})
+});
 
+var client2 = influx({
+  host : 'localhost',
+  port : 8086, 
+  protocol : 'http', 
+  username : 'raspberry',
+  password : 'raspberry',
+  database : 'raspberry'
+});
 
 var server = http.createServer(app);
 io = io.listen(server);
@@ -56,7 +64,8 @@ var rule = new schedule.RecurrenceRule();
 rule.minute = new schedule.Range(0, 59, 5);
 
 schedule.scheduleJob(rule, function(){
-  console.log('Exec get Home TEMP - cron');
+    console.log('Exec get Home TEMP - cron');
+	getTemperature(true);
     exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
         
         var data = stdout.split(" ");
@@ -82,17 +91,19 @@ function done(err, response) {
 	
 }
 
-function getTemperature() {
+function getTemperature(save) {
     exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
         if (error) {
             console.log(error);
-            io.emit('temperature', {
-                temp: 0
-            });
         }
-        io.emit('temperature', {
+		
+		if (save) {
+			client2.writePoint("temperature", stdout / 1000, null, done);
+		} else {
+			io.emit('temperature', {
             temp: stdout / 1000
-        });
+			});
+		}
     });
 }
 
@@ -101,9 +112,6 @@ function getCpu() {
     exec("top -d 0.5 -b -n2 | grep 'Cpu(s)'|tail -n 1 | awk '{print $2 + $4}'", function (error, stdout, stderr) {
         if (error) {
             console.log(error);
-            io.emit('cpu', {
-                cpu: 0
-            });
         }
 
         io.emit('cpu', {
@@ -116,9 +124,6 @@ function getMem() {
     exec("free -m", function (error, stdout, stderr) {
         if (error) {
             console.log(error);
-            io.emit('mem', {
-                mem: 0
-            });
         }
         stdout = stdout.replace(/ +(?= )/g, ' ');
         var data = stdout.split(" ");
