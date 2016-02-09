@@ -27,6 +27,7 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
 
 var mode = "confort";
+var temperatureCible = 20;
 var modeTemp = {
     "confort": 20,
     "eco": 17
@@ -75,14 +76,14 @@ schedule.scheduleJob(rule, function(){
 		}
         
     });
-	client.writePoint("mode", mode, null, done);
+	client.writePoint("temperatureCible", temperatureCible, null, done);
 });
 
 
 function setMode(m) {
 	mode = m;
-	
-	client.writePoint("mode", m, null, done);
+    temperatureCible = modeTemp[m];
+	client.writePoint("temperatureCible", temperatureCible, null, done);
 }
 
 
