@@ -22,13 +22,21 @@
             <div class="col-lg-6">
                 <div id="chart_div" style="width: 300px; height: 50px;"></div>
             </div>
-
         </div>
-		<div class="col-lg-6">
-                Sonde température : {{home.temperature}}<br /><br />
-				Sonde Humidité : {{home.humidity}}<br /><br />
-				Mode en cours : {{mode}}<br /><br />
-				Température cible : {{modeTemperature}}
+        <div class="row ">
+            <div class="col-lg-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Maison</div>
+                    <div class="panel-body">
+                        Sonde température : {{home.temperature}}<br/><br/>
+                        Sonde Humidité : {{home.humidity}}<br/><br/>
+                        Mode en cours : {{mode}}<br/><br/>
+                        Température cible : {{modeTemperature}}
+
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 
