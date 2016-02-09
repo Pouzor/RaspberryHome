@@ -58,11 +58,8 @@ var execOpts = {
     timeout: 2000
 };
 
-
 var rule = new schedule.RecurrenceRule();
-
 rule.minute = new schedule.Range(0, 59, 5);
-
 schedule.scheduleJob(rule, function(){
     console.log('Exec get Home TEMP - cron');
 	getTemperature(true);
@@ -80,16 +77,44 @@ schedule.scheduleJob(rule, function(){
     });
 });
 
-//var j = schedule.scheduleJob('*/1 * * * *', function () {
-	
 
-//});
+function setMode(m) {
+	mode = m;
+	
+	client.writePoint("mode", m, null, done);
+}
+
 
 function done(err, response) {
 	if (err)
 		console.log('Error : ' + err);
 	
 }
+
+
+////////////////////////
+
+var semaineStart = new cron.RecurrenceRule();
+semaineStart.dayOfWeek = [1,2,3,4,5];
+semaineStart.hour = [6, 17];
+semaineStart.minute = 30;
+schedule.scheduleJob(semaineStart, function(){
+    console.log('Start mode confort');
+	setMode("confort");
+});
+
+var semaineStop = new cron.RecurrenceRule();
+semaineStop.dayOfWeek = [1,2,3,4,5];
+semaineStop.hour = [8, 1];
+semaineStop.minute = 0;
+schedule.scheduleJob(semaineStop, function(){
+    console.log('stop mode confort');
+	setMode("eco");
+});
+
+
+
+////////////////////////
 
 function getTemperature(save) {
     exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
