@@ -94,7 +94,7 @@ function done(err, response) {
 
 ////////////////////////
 
-var semaineStart = new cron.RecurrenceRule();
+var semaineStart = new schedule.RecurrenceRule();
 semaineStart.dayOfWeek = [1,2,3,4,5];
 semaineStart.hour = [6, 17];
 semaineStart.minute = 30;
@@ -103,7 +103,7 @@ schedule.scheduleJob(semaineStart, function(){
 	setMode("confort");
 });
 
-var semaineStop = new cron.RecurrenceRule();
+var semaineStop = new schedule.RecurrenceRule();
 semaineStop.dayOfWeek = [1,2,3,4,5];
 semaineStop.hour = [8, 1];
 semaineStop.minute = 0;
