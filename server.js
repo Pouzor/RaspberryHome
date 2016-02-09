@@ -75,6 +75,7 @@ schedule.scheduleJob(rule, function(){
 		}
         
     });
+	client.writePoint("mode", mode, null, done);
 });
 
 
