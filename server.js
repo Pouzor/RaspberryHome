@@ -26,8 +26,8 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 // sudo python Adafruit_DHT.py  22 4
 
 
-var mode = "confort";
-var temperatureCible = 20;
+var mode = "eco";
+var temperatureCible = 17;
 var modeTemp = {
     "confort": 20,
     "eco": 17
@@ -98,7 +98,7 @@ function done(err, response) {
 
 var semaineStart = new schedule.RecurrenceRule();
 semaineStart.dayOfWeek = [1,2,3,4,5];
-semaineStart.hour = [6, 17];
+semaineStart.hour = [5, 16];
 semaineStart.minute = 30;
 schedule.scheduleJob(semaineStart, function(){
     console.log('Start mode confort');
@@ -107,7 +107,7 @@ schedule.scheduleJob(semaineStart, function(){
 
 var semaineStop = new schedule.RecurrenceRule();
 semaineStop.dayOfWeek = [1,2,3,4,5];
-semaineStop.hour = [8, 1];
+semaineStop.hour = [7, 0];
 semaineStop.minute = 0;
 schedule.scheduleJob(semaineStop, function(){
     console.log('stop mode confort');
