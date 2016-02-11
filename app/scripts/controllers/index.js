@@ -58,5 +58,10 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
         });
     });
 	
+	
+	$scope.setMode = function() {
+		socket.emit('set-mode', $scope.mode);
+	};
+	
 });
 
