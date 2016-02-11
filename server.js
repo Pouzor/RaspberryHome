@@ -114,6 +114,23 @@ schedule.scheduleJob(semaineStop, function(){
 	setMode("eco");
 });
 
+var weStart = new schedule.RecurrenceRule();
+weStart.dayOfWeek = [6,7];
+weStart.hour = [7];
+weStart.minute = 0;
+schedule.scheduleJob(semaineStart, function(){
+    console.log('Start mode confort WE');
+    setMode("confort");
+});
+
+var weStop = new schedule.RecurrenceRule();
+weStop.dayOfWeek = [6,7];
+weStop.hour = [0];
+weStop.minute = 0;
+schedule.scheduleJob(semaineStop, function(){
+    console.log('stop mode confort WE');
+    setMode("eco");
+});
 
 
 ////////////////////////
