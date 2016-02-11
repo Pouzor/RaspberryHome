@@ -262,7 +262,8 @@ io.on('connection', function (socket) {
     });
 
     socket.on('set-mode', function (data) {
-        mode = data.mode
+		console.log("set mode" + data);
+        mode = data
 
     });
 
