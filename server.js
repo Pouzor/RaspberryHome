@@ -22,7 +22,8 @@ app.use(bodyParser.urlencoded({extended: true})); // pull information from html 
 app.use(bodyParser.json()); // parse application/json
 app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
-//sudo ./chacon_send 6 12325261 1 on
+//sudo ./chacon_send 6 12325261 1 on --> mode eco
+// sudo ./chacon_send 6 12325262 1 on
 // sudo python Adafruit_DHT.py  22 4
 
 
@@ -31,6 +32,10 @@ var temperatureCible = 17;
 var modeTemp = {
     "confort": 20,
     "eco": 17
+};
+var modeActive = {
+	"confort" : "off",
+	"eco": "on"
 };
 
 var client = influx({
@@ -84,8 +89,22 @@ function setMode(m) {
 	mode = m;
     temperatureCible = modeTemp[m];
 	client.writePoint("temperatureCible", temperatureCible, null, done);
+	callChacon(m);
+	
 }
 
+
+function callChacon(m) {
+	 exec("./chacon_send/chacon_send 6 12325261 1 "+modeActive[m], function (error, stdout, stderr) {
+		 console.log('Send mode chacon 1 : ' + modeActive[m]);
+	 });
+	 
+	 
+	 setTimeout(exec("./chacon_send/chacon_send 6 12325262 1 "+modeActive[m], function (error, stdout, stderr) {
+		 console.log('Send mode chacon 2 : '+ modeActive[m]);
+	 }), 3000);
+
+}
 
 function done(err, response) {
 	if (err)
@@ -126,7 +145,7 @@ schedule.scheduleJob(semaineStart, function(){
 var weStop = new schedule.RecurrenceRule();
 weStop.dayOfWeek = [6,7];
 weStop.hour = [0];
-weStop.minute = 0;
+weStop.minute = 10;
 schedule.scheduleJob(semaineStop, function(){
     console.log('stop mode confort WE');
     setMode("eco");
