@@ -95,14 +95,14 @@ function setMode(m) {
 
 
 function callChacon(m) {
-	 exec("./chacon_send/chacon_send 6 12325261 1 "+modeActive[m], function (error, stdout, stderr) {
+	 exec("./scripts/chacon_send/chacon_send 6 12325261 1 "+modeActive[m], function (error, stdout, stderr) {
 		 if (error)
 			 console.log(error);
 		 console.log('Send mode chacon 1 : ' + modeActive[m]);
 	 });
 	 
 	 
-	 setTimeout(exec("./chacon_send/chacon_send 6 12325262 1 "+modeActive[m], function (error, stdout, stderr) {
+	 setTimeout(exec("./scripts/chacon_send/chacon_send 6 12325262 1 "+modeActive[m], function (error, stdout, stderr) {
 		 if (error)
 			console.log(error);
 		 console.log('Send mode chacon 2 : '+ modeActive[m]);
