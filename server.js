@@ -285,8 +285,8 @@ io.on('connection', function (socket) {
     });
 
     socket.on('set-mode', function (data) {
-		console.log("set mode" + data);
-        mode = data
+		console.log("Force set mode " + data);
+        setMode(data);
 
     });
 
