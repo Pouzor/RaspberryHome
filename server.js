@@ -138,7 +138,7 @@ schedule.scheduleJob(semaineStop, function(){
 });
 
 var weStart = new schedule.RecurrenceRule();
-weStart.dayOfWeek = [6,7];
+weStart.dayOfWeek = [6,0];
 weStart.hour = [7];
 weStart.minute = 0;
 schedule.scheduleJob(weStart, function(){
@@ -147,7 +147,7 @@ schedule.scheduleJob(weStart, function(){
 });
 
 var weStop = new schedule.RecurrenceRule();
-weStop.dayOfWeek = [6,7];
+weStop.dayOfWeek = [6,0];
 weStop.hour = [0];
 weStop.minute = 10;
 schedule.scheduleJob(weStop, function(){
