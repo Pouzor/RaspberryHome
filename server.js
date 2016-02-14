@@ -141,7 +141,7 @@ var weStart = new schedule.RecurrenceRule();
 weStart.dayOfWeek = [6,7];
 weStart.hour = [7];
 weStart.minute = 0;
-schedule.scheduleJob(semaineStart, function(){
+schedule.scheduleJob(weStart, function(){
     console.log('Start mode confort WE');
     setMode("confort");
 });
@@ -150,7 +150,7 @@ var weStop = new schedule.RecurrenceRule();
 weStop.dayOfWeek = [6,7];
 weStop.hour = [0];
 weStop.minute = 10;
-schedule.scheduleJob(semaineStop, function(){
+schedule.scheduleJob(weStop, function(){
     console.log('stop mode confort WE');
     setMode("eco");
 });
