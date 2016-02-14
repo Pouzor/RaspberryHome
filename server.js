@@ -121,7 +121,7 @@ function done(err, response) {
 
 var semaineStart = new schedule.RecurrenceRule();
 semaineStart.dayOfWeek = [1,2,3,4,5];
-semaineStart.hour = [5, 16];
+semaineStart.hour = [6, 17];
 semaineStart.minute = 30;
 schedule.scheduleJob(semaineStart, function(){
     console.log('Start mode confort');
@@ -130,7 +130,7 @@ schedule.scheduleJob(semaineStart, function(){
 
 var semaineStop = new schedule.RecurrenceRule();
 semaineStop.dayOfWeek = [1,2,3,4,5];
-semaineStop.hour = [7, 0];
+semaineStop.hour = [8, 1];
 semaineStop.minute = 0;
 schedule.scheduleJob(semaineStop, function(){
     console.log('stop mode confort');
@@ -139,7 +139,7 @@ schedule.scheduleJob(semaineStop, function(){
 
 var weStart = new schedule.RecurrenceRule();
 weStart.dayOfWeek = [6,0];
-weStart.hour = [7];
+weStart.hour = [8];
 weStart.minute = 0;
 schedule.scheduleJob(weStart, function(){
     console.log('Start mode confort WE');
@@ -148,7 +148,7 @@ schedule.scheduleJob(weStart, function(){
 
 var weStop = new schedule.RecurrenceRule();
 weStop.dayOfWeek = [6,0];
-weStop.hour = [0];
+weStop.hour = [1];
 weStop.minute = 10;
 schedule.scheduleJob(weStop, function(){
     console.log('stop mode confort WE');
