@@ -3,34 +3,41 @@
         <div class="row ">
             <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Raspberry infos</div>
+                    <div class="panel-heading"><i class="fa fa-laptop"></i>
+                        Raspberry infos
+                    </div>
                     <div class="panel-body">
                         <p id="p_hostname">{{infos.hostname}}</p>
 
                         <p id="p_kernel">{{infos.uname}}</p>
 
-                        <p id="p_uptime">{{infos.uptime}} up</p>
+                        <p id="p_uptime"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                            {{infos.uptime}} up</p>
                         <br/><br/><br/>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Raspberry stats</div>
+                    <div class="panel-heading"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+                        Raspberry stats
+                    </div>
                     <div class="panel-body">
                         <p class="large">
-                            {{home.temperature}}°C / {{modeTemperature}}°C<br/><br/>
-                            {{home.humidity}}%<br/><br/>
-                            {{mode}}
+                            CPU : {{cpu}}<br/><br/>
+                            MEM : {{mem}}<br/><br/>
+                            TEMP : {{temperature}}
                         </p>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row ">
+
+
             <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Salon</div>
+                    <div class="panel-heading"><i class="fa fa-television"></i>
+                        Salon
+                    </div>
                     <div class="panel-body">
                         <p class="large">
                             {{home.temperature}}°C / {{modeTemperature}}°C<br/><br/>
@@ -38,8 +45,7 @@
                             {{mode}}
                         </p>
 
-                    </div>
-                    <div class="panel-body">
+
                         Force mode :
                         <select ng-model="mode">
                             <option value="confort">Confort</option>
@@ -50,49 +56,72 @@
                 </div>
 
             </div>
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-bed"></i>
+                        Chambre
+                    </div>
+                    <div class="panel-body">
+                        <p class="large">
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-lightbulb-o"></i>
+                        Lumiere arche
+                    </div>
+                    <div class="panel-body">
+                        <p class="large">
+                            On / Off
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+            </div>
+            <div class="row ">
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-pause-circle-o"></i>
+                        Télévision
+                    </div>
+                    <div class="panel-body">
+                        <p class="large">
+                            On / Off
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-music"></i>
+                        Chaine HI-FI
+                    </div>
+                    <div class="panel-body">
+                        <p class="large">
+                            On / Off
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
         </div>
+
     </div>
-
-
-    <script type="text/javascript">
-        google.charts.load('current', {'packages': ['gauge']});
-        function initJs() {
-            google.charts.setOnLoadCallback(drawChart);
-        }
-
-        function drawChart() {
-
-            var data = google.visualization.arrayToDataTable([
-                ['Label', 'Value'],
-                ['Memory', $('[ng-controller="IndexCtrl"]').scope().mem],
-                ['CPU', $('[ng-controller="IndexCtrl"]').scope().cpu],
-                ['Temp', $('[ng-controller="IndexCtrl"]').scope().temperature]
-            ]);
-
-            var options = {
-                width: 600, height: 180,
-                redFrom: 90, redTo: 100,
-                yellowFrom: 75, yellowTo: 90,
-                minorTicks: 5
-            };
-
-            var chart = new google.visualization.Gauge(document.getElementById('chart_div'));
-
-            chart.draw(data, options);
-
-//                    setInterval(function() {
-//                        data.setValue(0, 1, 40 + Math.round(60 * Math.random()));
-//                        chart.draw(data, options);
-//                    }, 13000);
-//                    setInterval(function() {
-//                        data.setValue(1, 1, 40 + Math.round(60 * Math.random()));
-//                        chart.draw(data, options);
-//                    }, 5000);
-//                    setInterval(function() {
-//                        data.setValue(2, 1, 60 + Math.round(20 * Math.random()));
-//                        chart.draw(data, options);
-//                    }, 26000);
-        }
-    </script>
-
 </div>
