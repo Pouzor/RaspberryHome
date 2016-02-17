@@ -30,3 +30,12 @@ body {
 .result {
     margin-bottom: 30px;
 }
+
+.panel-body {
+    text-align: center;
+}
+
+.panel-body .large {
+    font-size: 18px;
+    font-weight: bold;
+}

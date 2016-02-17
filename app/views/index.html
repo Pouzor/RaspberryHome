@@ -1,52 +1,51 @@
 <div ng-controller="IndexCtrl">
     <div class="container">
         <div class="row ">
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">General info</div>
-                    <div class="panel-body"><p id="p_hostname"><b>Hostname : </b>{{infos.hostname}}
-                    </p>
+                    <div class="panel-heading">Raspberry infos</div>
+                    <div class="panel-body">
+                        <p id="p_hostname">{{infos.hostname}}</p>
 
-                        <p id="p_kernel"><b>Kernel : </b>{{infos.uname}}</p>
+                        <p id="p_kernel">{{infos.uname}}</p>
 
-                        <p id="p_uptime"><b>Uptime : </b>{{infos.uptime}}</p>
-
-                        <div>
-                            <b>Top list:</b>
-                            <ol id="toplist">
-                            </ol>
-                        </div>
+                        <p id="p_uptime">{{infos.uptime}} up</p>
                         <br/><br/><br/>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Raspberry</div>
-                    <div class="panel-body" style="height: 210px">
-                        <div id="chart_div" style="width: 300px; height: 50px;"></div>
+                    <div class="panel-heading">Raspberry stats</div>
+                    <div class="panel-body">
+                        <p class="large">
+                            {{home.temperature}}°C / {{modeTemperature}}°C<br/><br/>
+                            {{home.humidity}}%<br/><br/>
+                            {{mode}}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
         <div class="row ">
-            <div class="col-lg-6">
+            <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading">Maison</div>
+                    <div class="panel-heading">Salon</div>
                     <div class="panel-body">
-                        Sonde température : {{home.temperature}}<br/><br/>
-                        Sonde Humidité : {{home.humidity}}<br/><br/>
-                        Mode en cours : {{mode}}<br/><br/>
-                        Température cible : {{modeTemperature}}
+                        <p class="large">
+                            {{home.temperature}}°C / {{modeTemperature}}°C<br/><br/>
+                            {{home.humidity}}%<br/><br/>
+                            {{mode}}
+                        </p>
 
                     </div>
-					<div class="panel-body">
-                       Force mode : 
-					   <select ng-model="mode">
-							<option value="confort">Confort</option>
-							<option value="eco">Eco</option>
-					   </select>
-						<input type="button" value="Save" data-ng-click="setMode()"/>
+                    <div class="panel-body">
+                        Force mode :
+                        <select ng-model="mode">
+                            <option value="confort">Confort</option>
+                            <option value="eco">Eco</option>
+                        </select>
+                        <input type="button" value="Save" data-ng-click="setMode()"/>
                     </div>
                 </div>
 
