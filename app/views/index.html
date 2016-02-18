@@ -24,9 +24,9 @@
                     </div>
                     <div class="panel-body">
                         <p class="large">
-                            CPU : {{cpu}}<br/><br/>
-                            MEM : {{mem}}<br/><br/>
-                            TEMP : {{temperature}}
+                            CPU : {{cpu | number:1}}<br/><br/>
+                            MEM : {{mem | number:1 }}<br/><br/>
+                            TEMP : {{temperature | number:1}}
                         </p>
                     </div>
                 </div>
@@ -40,8 +40,8 @@
                     </div>
                     <div class="panel-body">
                         <p class="large">
-                            {{home.temperature}}°C / {{modeTemperature}}°C<br/><br/>
-                            {{home.humidity}}%<br/><br/>
+                            {{home.temperature | number:1}} °C / {{modeTemperature}}°C<br/><br/>
+                            {{home.humidity | number:1}}%<br/><br/>
                             {{mode}}
                         </p>
 
