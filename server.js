@@ -226,8 +226,8 @@ function getHomeTemp() {
 
         if (data[4] && data[8])
             io.emit('home', {
-                temperature: data[4],
-                humidity: data[8]
+                temperature: Number((data[4]).toFixed(2)),
+                humidity: Number((data[8]).toFixed(2))
             });
     });
 
