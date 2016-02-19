@@ -122,7 +122,7 @@ function done(err, response) {
 var semaineStart = new schedule.RecurrenceRule();
 semaineStart.dayOfWeek = [1,2,3,4,5];
 semaineStart.hour = [6, 17];
-semaineStart.minute = 30;
+semaineStart.minute = 0;
 schedule.scheduleJob(semaineStart, function(){
     console.log('Start mode confort');
 	setMode("confort");
@@ -139,8 +139,8 @@ schedule.scheduleJob(semaineStop, function(){
 
 var weStart = new schedule.RecurrenceRule();
 weStart.dayOfWeek = [6,0];
-weStart.hour = [8];
-weStart.minute = 0;
+weStart.hour = [7];
+weStart.minute = 30;
 schedule.scheduleJob(weStart, function(){
     console.log('Start mode confort WE');
     setMode("confort");
