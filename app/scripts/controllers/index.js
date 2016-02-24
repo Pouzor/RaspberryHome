@@ -64,8 +64,8 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	};
 	
 	$scope.pressLight = function (mode) {
-		$socket.emit('set-light', mode);
-	}
+		socket.emit('set-light', mode);
+	};
 	
 });
 
