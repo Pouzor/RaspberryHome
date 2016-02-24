@@ -19,21 +19,18 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.on('temperature', function(data) {
         $scope.$apply(function () {
             $scope.temperature = data.temp;
-            initJs();
         });
     });
 
     socket.on('cpu', function(data) {
         $scope.$apply(function () {
             $scope.cpu = data.cpu;
-            initJs();
         });
     });
 
 	socket.on('mem', function(data) {
         $scope.$apply(function () {
             $scope.mem = (data.memUsed / data.memTotal) * 100;
-            initJs();
         });
     });
 	
