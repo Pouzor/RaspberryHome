@@ -38,6 +38,7 @@ var modeActive = {
 	"eco": "on"
 };
 
+
 var client = influx({
   host : 'localhost',
   port : 8086, 
@@ -90,7 +91,7 @@ function setMode(m) {
     temperatureCible = modeTemp[m];
 	client.writePoint("temperatureCible", temperatureCible, null, done);
 	callChacon(m);
-	
+
 }
 
 
@@ -116,8 +117,16 @@ function done(err, response) {
 	
 }
 
+function setLight(mode) {
+	 
+	exec("irsend SEND_ONCE lircd.conf "+mode, function (error, stdout, stderr) {
+		if (error)
+			console.log(error);
+	});
+}
 
-////////////////////////
+
+//////////////////////// CRON ///////////////////////
 
 var semaineStart = new schedule.RecurrenceRule();
 semaineStart.dayOfWeek = [1,2,3,4,5];
@@ -254,6 +263,9 @@ app.post('/api/authenticate', function (req, res) {
 });
 
 
+
+// ============================= Socket ================================== //
+
 io.on('connection', function (socket) {
     console.log("Socket on");
 
@@ -289,6 +301,11 @@ io.on('connection', function (socket) {
         setMode(data);
 
     });
+	
+	socket.on('set-light', function (mode) {
+		setLight(mode);
+	});
+	
 
 });
 
