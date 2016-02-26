@@ -12,8 +12,14 @@
                         <p id="p_kernel">{{infos.uname}}</p>
 
                         <p id="p_uptime"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                            {{infos.uptime}} up</p>
-                        <br/><br/><br/>
+                            {{infos.uptime}} up
+                        </p>
+                        <br />
+                        <p>
+                            <i class="fa fa-laptop"></i> {{cpu | number:1}} %
+                            <i class="fa fa-tasks"></i> {{mem | number:1 }} %
+                            <i class="fa fa-fire"></i> {{temperature | number:1}} °C
+                        </p>
                     </div>
                 </div>
             </div>
@@ -35,28 +41,47 @@
 
             <div class="col-lg-3">
                 <div class="panel panel-primary">
-                    <div class="panel-heading"><i class="fa fa-television"></i>
-                        Salon
+                    <div class="panel-heading">
+                        <i class="fa fa-television"></i> Salon
                     </div>
                     <div class="panel-body">
                         <p class="large">
                             {{home.temperature | number:1}} °C / {{modeTemperature}}°C<br/><br/>
                             {{home.humidity | number:1}}%<br/><br/>
-                            {{mode}}
+                            Mode : {{mode}} &nbsp;
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true" data-toggle="modal" data-target="#modalTemp"></span>
                         </p>
 
 
-                        Force mode :
-                        <select ng-model="mode">
-                            <option value="confort">Confort</option>
-                            <option value="eco">Eco</option>
-                        </select>
-                        <input type="button" value="Save" data-ng-click="setMode()"/>
+
                     </div>
                 </div>
 
             </div>
-            
+
+            <div class="modal fade" id="modalTemp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Modification du mode</h4>
+                        </div>
+                        <div class="modal-body">
+                            Force mode :
+                            <select ng-model="mode">
+                                <option value="confort">Confort</option>
+                                <option value="eco">Eco</option>
+                            </select>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" data-ng-click="setMode()">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="col-lg-3">
                 <div class="panel panel-primary">
@@ -64,23 +89,37 @@
                         Lumiere arche
                     </div>
                     <div class="panel-body">
-						
-							<button type="button" class="btn btn-primary btn-block" data-ng-click="pressLight('KEY_POWER')">I/O</button>
-							<br />
-							<button type="button" class="btn btn-info col-lg-2" data-ng-click="pressLight('KEY_BLUE')">B</button>
-							<button type="button" class="btn btn-danger col-lg-2 col-lg-offset-1" data-ng-click="pressLight('KEY_RED')">R</button>
-							<button type="button" class="btn btn-success col-lg-2 col-lg-offset-2" data-ng-click="pressLight('KEY_GREEN')">G</button>
-							<button type="button" class="btn btn-warning col-lg-2 col-lg-offset-1" data-ng-click="pressLight('KEY_SHUFFLE')"><span class="glyphicon glyphicon-random" aria-hidden="true"></span></button>
-							<br /><br />
-							<button type="button" class="btn btn-primary col-lg-2 col-lg-offset-3" data-ng-click="pressLight('KEY_UP')"><span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span></button>
-							<button type="button" class="btn btn-primary col-lg-2 col-lg-offset-2" data-ng-click="pressLight('KEY_DOWN')"><span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span></button>
-						</div>
-					</div>
-                </div>
 
+                        <button type="button" class="btn btn-primary btn-block" data-ng-click="pressLight('KEY_POWER')">
+                            I/O
+                        </button>
+                        <br/>
+                        <button type="button" class="btn btn-info col-lg-2" data-ng-click="pressLight('KEY_BLUE')">B
+                        </button>
+                        <button type="button" class="btn btn-danger col-lg-2 col-lg-offset-1"
+                                data-ng-click="pressLight('KEY_RED')">R
+                        </button>
+                        <button type="button" class="btn btn-success col-lg-2 col-lg-offset-2"
+                                data-ng-click="pressLight('KEY_GREEN')">G
+                        </button>
+                        <button type="button" class="btn btn-warning col-lg-2 col-lg-offset-1"
+                                data-ng-click="pressLight('KEY_SHUFFLE')"><span class="glyphicon glyphicon-random"
+                                                                                aria-hidden="true"></span></button>
+                        <br/><br/>
+                        <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-3"
+                                data-ng-click="pressLight('KEY_UP')"><span class="glyphicon glyphicon-arrow-up"
+                                                                           aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-2"
+                                data-ng-click="pressLight('KEY_DOWN')"><span class="glyphicon glyphicon-arrow-down"
+                                                                             aria-hidden="true"></span></button>
+                    </div>
+                </div>
             </div>
-			</div>
-			<div class="col-lg-3">
+
+        </div>
+
+        <div class="row ">
+            <div class="col-lg-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading"><i class="fa fa-bed"></i>
                         Chambre
@@ -95,8 +134,8 @@
                 </div>
 
             </div>
-            
-            <div class="row ">
+
+
             <div class="col-lg-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading"><i class="fa fa-pause-circle-o"></i>
@@ -119,17 +158,29 @@
                         Chaine HI-FI
                     </div>
                     <div class="panel-body">
-                        <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-1" data-ng-click="pressHiFi('KEY_POWER')"><span class="glyphicon glyphicon-off" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-volume-down" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-music" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-random" aria-hidden="true"></span></button>
-                        <br /><br />
-                        <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-1" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-fast-backward" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-forward" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-1"
+                                data-ng-click="pressHiFi('KEY_POWER')"><span class="glyphicon glyphicon-off"
+                                                                             aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-volume-down" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-music" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-random" aria-hidden="true"></span></button>
+                        <br/><br/>
+                        <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-1"
+                                data-ng-click="pressHiFi('')"><span class="glyphicon glyphicon-fast-backward"
+                                                                    aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-pause" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-play" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-forward" aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
+                                class="glyphicon glyphicon-stop" aria-hidden="true"></span></button>
 
 
                     </div>
@@ -142,3 +193,11 @@
 
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#modalTemp').modal({
+            show: false
+        });
+    })
+
+</script>

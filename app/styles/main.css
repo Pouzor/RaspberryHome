@@ -31,6 +31,10 @@ body {
     margin-bottom: 30px;
 }
 
+.panel {
+    height: 210px;
+}
+
 .panel-body {
     text-align: center;
 }
