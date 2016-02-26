@@ -16,27 +16,14 @@
                         </p>
                         <br />
                         <p>
-                            <i class="fa fa-laptop"></i> {{cpu | number:1}} %
-                            <i class="fa fa-tasks"></i> {{mem | number:1 }} %
+                            <i class="fa fa-laptop"></i> {{cpu | number:1}} %&nbsp;&nbsp;
+                            <i class="fa fa-tasks"></i> {{mem | number:1 }} %&nbsp;&nbsp;
                             <i class="fa fa-fire"></i> {{temperature | number:1}} °C
                         </p>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading"><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
-                        Raspberry stats
-                    </div>
-                    <div class="panel-body">
-                        <p class="large">
-                            CPU : {{cpu | number:1}}<br/><br/>
-                            MEM : {{mem | number:1 }}<br/><br/>
-                            TEMP : {{temperature | number:1}}
-                        </p>
-                    </div>
-                </div>
-            </div>
+
 
 
             <div class="col-lg-3">
@@ -67,8 +54,8 @@
                             <h4 class="modal-title" id="myModalLabel">Modification du mode</h4>
                         </div>
                         <div class="modal-body">
-                            Force mode :
-                            <select ng-model="mode">
+                            Change mode : <br /><br />
+                            <select ng-model="mode" class="form-control">
                                 <option value="confort">Confort</option>
                                 <option value="eco">Eco</option>
                             </select>
@@ -115,7 +102,16 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading"><i class="fa fa-video-camera"></i></span>
+                        Camera
+                    </div>
+                    <div class="panel-body">
 
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="row ">
