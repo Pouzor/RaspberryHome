@@ -71,7 +71,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 		$('.start').hide();
     });
 	
-	socket.startStream = function() {
+	$scope.startStream = function() {
 		console.log("Action start");
 		socket.emit('start-stream');
 		$('.start').hide();
