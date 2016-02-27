@@ -37,11 +37,9 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
 
 function stopStreaming() {
-  if (Object.keys(sockets).length == 0) {
     app.set('watchingFile', false);
     if (proc) proc.kill();
     fs.unwatchFile('./stream/image_stream.jpg');
-  }
 }
  
 function startStreaming(io) {
@@ -311,7 +309,7 @@ io.on('connection', function (socket) {
 	
 	socket.on('disconnect', function() {
 		delete sockets[socket.id];
- 
+		console.log('Disconnect socket');
 		// no more sockets, kill the stream
 		if (Object.keys(sockets).length == 0) {
 			app.set('watchingFile', false);
@@ -325,7 +323,12 @@ io.on('connection', function (socket) {
 		startStreaming(io);
     });
 
+	socket.on('stop-stream', function() {
+		console.log("stop streaming");
+		stopStreaming();
+    });
 
+	
     socket.on('get-temp', function (data) {
         getTemperature();
     });
