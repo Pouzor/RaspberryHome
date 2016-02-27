@@ -186,7 +186,7 @@
             </div>
 			
 			
-  <button type="button" id="" class="btn btn-info start" data-ng-click="startStream()">Start Camera</button>
+  <button type="button" id="" class="btn btn-info start" onclick="startStream()">Start Camera</button>
  
   <div class="row">
     <img src="" id="stream">
@@ -202,6 +202,17 @@
         $('#modalTemp').modal({
             show: false
         });
-    })
+
+	var socket = io();
+    socket.on('liveStream', function(url) {
+		$('#stream').attr('src', url);
+		$('.start').hide();
+    });
+ 
+	function startStream() {
+		socket.emit('start-stream');
+		$('.start').hide();
+	}		
+  });
 
 </script>
