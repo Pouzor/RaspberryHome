@@ -81,7 +81,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 		console.log("stop camera");
 		$('#stream').attr('src', "");
 		socket.emit('stop-stream');
-		$('.show').hide();
+		$('.start').show();
 	}
 	
 	
