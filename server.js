@@ -15,6 +15,13 @@ var port = argv.p ? argv.p : config.port;
 var schedule = require('node-schedule');
 var influx = require('influx');
 
+var fs = require('fs');
+var path = require('path');
+var spawn = require('child_process').spawn;
+var proc;
+app.use('/', express.static(path.join(__dirname, 'stream')));
+var sockets = {};
+
 app.disable('etag');
 app.use(express.static(__dirname + '/app')); 		// set the static files location /public/img will be /img for users
 app.use(morgan('dev')); 					// log every request to the console
@@ -25,6 +32,38 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 //sudo ./chacon_send 6 12325261 1 on --> mode eco
 // sudo ./chacon_send 6 12325262 1 on
 // sudo python Adafruit_DHT.py  22 4
+
+
+
+
+function stopStreaming() {
+  if (Object.keys(sockets).length == 0) {
+    app.set('watchingFile', false);
+    if (proc) proc.kill();
+    fs.unwatchFile('./stream/image_stream.jpg');
+  }
+}
+ 
+function startStreaming(io) {
+ 
+  if (app.get('watchingFile')) {
+    io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
+    return;
+  }
+ 
+  var args = ["-w", "640", "-h", "480", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
+  proc = spawn('raspistill', args);
+ 
+  console.log('Watching for changes...');
+ 
+  app.set('watchingFile', true);
+ 
+  fs.watchFile('./stream/image_stream.jpg', function(current, previous) {
+    io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
+  })
+ 
+}
+
 
 
 var mode = "eco";
@@ -267,7 +306,24 @@ app.post('/api/authenticate', function (req, res) {
 // ============================= Socket ================================== //
 
 io.on('connection', function (socket) {
-    console.log("Socket on");
+	
+	sockets[socket.id] = socket;
+	
+	socket.on('disconnect', function() {
+		delete sockets[socket.id];
+ 
+		// no more sockets, kill the stream
+		if (Object.keys(sockets).length == 0) {
+			app.set('watchingFile', false);
+			if (proc) proc.kill();
+			fs.unwatchFile('./stream/image_stream.jpg');
+		}
+    });
+	
+	socket.on('start-stream', function() {
+		startStreaming(io);
+    });
+
 
     socket.on('get-temp', function (data) {
         getTemperature();

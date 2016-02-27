@@ -64,5 +64,16 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 		socket.emit('set-light', mode);
 	};
 	
+	socket.on('liveStream', function(url) {
+		$('#stream').attr('src', url);
+		$('.start').hide();
+    });
+	
+	socket.startStream = function() {
+		socket.emit('start-stream');
+		$('.start').hide();
+	}
+	
+	
 });
 
