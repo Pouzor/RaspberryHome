@@ -14,7 +14,9 @@ var argv = require('minimist')(process.argv.slice(2));  //Get Argument pass to s
 var port = argv.p ? argv.p : config.port;
 var schedule = require('node-schedule');
 var influx = require('influx');
+var basicAuth = require('basic-auth-connect');
 
+app.use(basicAuth(config.auth.username, config.auth.password));
 var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
