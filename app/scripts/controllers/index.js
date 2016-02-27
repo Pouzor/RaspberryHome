@@ -67,7 +67,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	socket.on('liveStream', function(url) {
 		console.log("On recoit le steamm");
 		$('#stream').attr('src', url);
-		$scope.stream = url:
+		$scope.stream = url;
 		$('.start').hide();
     });
 	
