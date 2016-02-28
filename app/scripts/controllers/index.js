@@ -64,6 +64,10 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 		socket.emit('set-light', mode);
 	};
 	
+		$scope.pressTV = function (mode) {
+		socket.emit('set-TV', mode);
+	};
+	
 	socket.on('liveStream', function(url) {
 		console.log("On recoit le steamm");
 		$('#stream').attr('src', url);

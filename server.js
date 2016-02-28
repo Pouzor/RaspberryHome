@@ -175,6 +175,13 @@ function setLight(mode) {
 	});
 }
 
+function setTV(mode) {
+	 
+	exec("irsend SEND_ONCE tele "+mode, function (error, stdout, stderr) {
+		if (error)
+			console.log(error);
+	});
+}
 
 //////////////////////// CRON ///////////////////////
 
@@ -379,6 +386,9 @@ io.on('connection', function (socket) {
 		setLight(mode);
 	});
 	
+	socket.on('set-TV', function (mode) {
+		setTV(mode);
+	});
 
 });
 
