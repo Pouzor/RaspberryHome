@@ -156,6 +156,17 @@ function done(err, response) {
 	
 }
 
+
+//setInterval(function() {
+//  
+//exec("irsend SEND_ONCE lircd.conf KEY_POWER", function (error, stdout, stderr) {
+//                        console.log("test");
+//        });
+//  
+//}, 1000);
+
+
+
 function setLight(mode) {
 	 
 	exec("irsend SEND_ONCE lircd.conf "+mode, function (error, stdout, stderr) {
