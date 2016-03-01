@@ -68,7 +68,7 @@ sensor
 // randomize our temperature reading every 3 seconds
 setInterval(function() {
   
-  MY_SENSOR.randomizeTemperature();
+  MY_SENSOR.requestTemperature();
   
   // update the characteristic value so interested iOS devices can get notified
   sensor
