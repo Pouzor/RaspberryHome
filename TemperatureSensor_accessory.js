@@ -29,7 +29,7 @@ var MY_SENSOR = {
 		resp.on('data', function(chunk){
 			body += chunk;
 		});
-		response.on('end', function() {
+		resp.on('end', function() {
             // Data reception is done, do whatever with it!
            var parsed = JSON.parse(body);
 		   console.log('getTemp ' + parsed.temp);
