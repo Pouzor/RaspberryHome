@@ -31,39 +31,32 @@ app.use(bodyParser.urlencoded({extended: true})); // pull information from html 
 app.use(bodyParser.json()); // parse application/json
 app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
-//sudo ./chacon_send 6 12325261 1 on --> mode eco
-// sudo ./chacon_send 6 12325262 1 on
-// sudo python Adafruit_DHT.py  22 4
-
-
-
 
 function stopStreaming() {
     app.set('watchingFile', false);
     if (proc) proc.kill();
     fs.unwatchFile('./stream/image_stream.jpg');
 }
- 
-function startStreaming(io) {
- 
-  if (app.get('watchingFile')) {
-    io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-    return;
-  }
- 
-  var args = ["-w", "640", "-h", "480", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
-  proc = spawn('raspistill', args);
- 
-  console.log('Watching for changes...');
- 
-  app.set('watchingFile', true);
- 
-  fs.watchFile('./stream/image_stream.jpg', function(current, previous) {
-    io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-  })
- 
-}
 
+function startStreaming(io) {
+
+    if (app.get('watchingFile')) {
+        io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
+        return;
+    }
+
+    var args = ["-w", "640", "-h", "480", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
+    proc = spawn('raspistill', args);
+
+    console.log('Watching for changes...');
+
+    app.set('watchingFile', true);
+
+    fs.watchFile('./stream/image_stream.jpg', function (current, previous) {
+        io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
+    })
+
+}
 
 
 var mode = "eco";
@@ -73,150 +66,139 @@ var modeTemp = {
     "eco": 17
 };
 var modeActive = {
-	"confort" : "off",
-	"eco": "on"
+    "confort": "off",
+    "eco": "on"
 };
+
 var lastTemp = 0;
+var lastHumidity = 0;
 
 var client = influx({
-  host : 'localhost',
-  port : 8086, 
-  protocol : 'http', 
-  username : 'raspberry',
-  password : 'raspberry',
-  database : 'home'
+    host: 'localhost',
+    port: 8086,
+    protocol: 'http',
+    username: 'raspberry',
+    password: 'raspberry',
+    database: 'home'
 });
 
 var client2 = influx({
-  host : 'localhost',
-  port : 8086, 
-  protocol : 'http', 
-  username : 'raspberry',
-  password : 'raspberry',
-  database : 'raspberry'
+    host: 'localhost',
+    port: 8086,
+    protocol: 'http',
+    username: 'raspberry',
+    password: 'raspberry',
+    database: 'raspberry'
 });
 
 var server = http.createServer(app);
 io = io.listen(server);
 server.listen(port);
 
-var execOpts = {
-    timeout: 2000
-};
 
 var rule = new schedule.RecurrenceRule();
 rule.minute = new schedule.Range(0, 59, 5);
-schedule.scheduleJob(rule, function(){
-    console.log('Exec get Home TEMP - cron');
-	getTemperature(true);
+schedule.scheduleJob(rule, function () {
+    getTemperature(true);
     exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
-        
+
         var data = stdout.split(" ");
-		
-		if (data[4] && data[8]) {
-			console.log('Send data to influx');
-			client.writePoint("temperature", parseFloat(data[4]), { temperature: 'temperature'}, {precision : 's'}, done);
-			client.writePoint("humidity", parseFloat(data[8]), null, done);
-			
-		}
-        
+
+        if (data[4] && data[8]) {
+            console.log('Send data to influx');
+            client.writePoint("temperature", parseFloat(data[4]), {temperature: 'temperature'}, {precision: 's'}, done);
+            client.writePoint("humidity", parseFloat(data[8]), null, done);
+            lastHumidity = data[8];
+            lastTemp = data[4];
+        }
+
     });
-	client.writePoint("temperatureCible", temperatureCible, null, done);
+    client.writePoint("temperatureCible", temperatureCible, null, done);
 });
 
 
 function setMode(m) {
-	mode = m;
+    mode = m;
     temperatureCible = modeTemp[m];
-	client.writePoint("temperatureCible", temperatureCible, null, done);
-	callChacon(m);
+    client.writePoint("temperatureCible", temperatureCible, null, done);
+    callChacon(m);
 
 }
 
 
 function callChacon(m) {
-	 exec("./scripts/chacon_send/chacon_send 6 12325261 1 "+modeActive[m], function (error, stdout, stderr) {
-		if (error)
-			 console.log(error);
-		 
-		console.log('Send mode chacon 1 : ' + modeActive[m]);
-		
-		exec("./scripts/chacon_send/chacon_send 6 12325262 1 "+modeActive[m], function (error, stdout, stderr) {
-			if (error)
-				console.log(error);
-			console.log('Send mode chacon 2 : '+ modeActive[m]);
-		});
-	});
-	
+    exec("./scripts/chacon_send/chacon_send 6 12325261 1 " + modeActive[m], function (error, stdout, stderr) {
+        if (error)
+            console.log(error);
+
+        console.log('Send mode chacon 1 : ' + modeActive[m]);
+
+        exec("./scripts/chacon_send/chacon_send 6 12325262 1 " + modeActive[m], function (error, stdout, stderr) {
+            if (error)
+                console.log(error);
+            console.log('Send mode chacon 2 : ' + modeActive[m]);
+        });
+    });
+
 }
 
 function done(err, response) {
-	if (err)
-		console.log('Error : ' + err);
-	
+    if (err)
+        console.log('Error : ' + err);
+
 }
-
-
-//setInterval(function() {
-//  
-//exec("irsend SEND_ONCE lircd.conf KEY_POWER", function (error, stdout, stderr) {
-//                        console.log("test");
-//        });
-//  
-//}, 1000);
-
 
 
 function setLight(mode) {
-	 
-	exec("irsend SEND_ONCE lircd.conf "+mode, function (error, stdout, stderr) {
-		if (error)
-			console.log(error);
-	});
+
+    exec("irsend SEND_ONCE lircd.conf " + mode, function (error, stdout, stderr) {
+        if (error)
+            console.log(error);
+    });
 }
 
 function setTV(mode) {
-	 
-	exec("irsend SEND_ONCE tele "+mode, function (error, stdout, stderr) {
-		if (error)
-			console.log(error);
-	});
+
+    exec("irsend SEND_ONCE tele " + mode, function (error, stdout, stderr) {
+        if (error)
+            console.log(error);
+    });
 }
 
 //////////////////////// CRON ///////////////////////
 
 var semaineStart = new schedule.RecurrenceRule();
-semaineStart.dayOfWeek = [1,2,3,4,5];
+semaineStart.dayOfWeek = [1, 2, 3, 4, 5];
 semaineStart.hour = [6, 17];
 semaineStart.minute = 0;
-schedule.scheduleJob(semaineStart, function(){
+schedule.scheduleJob(semaineStart, function () {
     console.log('Start mode confort');
-	setMode("confort");
+    setMode("confort");
 });
 
 var semaineStop = new schedule.RecurrenceRule();
-semaineStop.dayOfWeek = [1,2,3,4,5];
+semaineStop.dayOfWeek = [1, 2, 3, 4, 5];
 semaineStop.hour = [8, 1];
 semaineStop.minute = 0;
-schedule.scheduleJob(semaineStop, function(){
+schedule.scheduleJob(semaineStop, function () {
     console.log('stop mode confort');
-	setMode("eco");
+    setMode("eco");
 });
 
 var weStart = new schedule.RecurrenceRule();
-weStart.dayOfWeek = [6,0];
+weStart.dayOfWeek = [6, 0];
 weStart.hour = [7];
 weStart.minute = 30;
-schedule.scheduleJob(weStart, function(){
+schedule.scheduleJob(weStart, function () {
     console.log('Start mode confort WE');
     setMode("confort");
 });
 
 var weStop = new schedule.RecurrenceRule();
-weStop.dayOfWeek = [6,0];
+weStop.dayOfWeek = [6, 0];
 weStop.hour = [1];
 weStop.minute = 10;
-schedule.scheduleJob(weStop, function(){
+schedule.scheduleJob(weStop, function () {
     console.log('stop mode confort WE');
     setMode("eco");
 });
@@ -229,14 +211,14 @@ function getTemperature(save) {
         if (error) {
             console.log(error);
         }
-		
-		if (save) {
-			client2.writePoint("temperature", stdout / 1000, null, done);
-		} else {
-			io.emit('temperature', {
-            temp: stdout / 1000
-			});
-		}
+
+        if (save) {
+            client2.writePoint("temperature", stdout / 1000, null, done);
+        } else {
+            io.emit('temperature', {
+                temp: stdout / 1000
+            });
+        }
     });
 }
 
@@ -286,24 +268,11 @@ function getInfos() {
 
 function getHomeTemp() {
     console.log('Call get Home TEMP');
-    var child = exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
-        console.log('Exec get Home TEMP');
-        var data = stdout.split(" ");
 
-        if (data[4] && data[8]) {
-            io.emit('home', {
-                temperature: data[4],
-                humidity: data[8]
-            });
-			lastTemp = data[4];
-		}
+    io.emit('home', {
+        temperature: lastTemp,
+        humidity: lastHumidity
     });
-
-
-    setTimeout(function () {
-        child.kill();
-    }, 5000);
-
 
 }
 
@@ -323,42 +292,41 @@ app.post('/api/authenticate', function (req, res) {
 
 
 app.get('/api/temperature', function (req, res) {
-	console.log('api/temprature');
+    console.log('api/temprature');
     res.json({temp: lastTemp});
-    
+
 
 });
-
 
 
 // ============================= Socket ================================== //
 
 io.on('connection', function (socket) {
-	
-	sockets[socket.id] = socket;
-	
-	socket.on('disconnect', function() {
-		delete sockets[socket.id];
-		console.log('Disconnect socket');
-		// no more sockets, kill the stream
-		if (Object.keys(sockets).length == 0) {
-			app.set('watchingFile', false);
-			if (proc) proc.kill();
-			fs.unwatchFile('./stream/image_stream.jpg');
-		}
-    });
-	
-	socket.on('start-stream', function() {
-		console.log("start streaming");
-		startStreaming(io);
+
+    sockets[socket.id] = socket;
+
+    socket.on('disconnect', function () {
+        delete sockets[socket.id];
+        console.log('Disconnect socket');
+        // no more sockets, kill the stream
+        if (Object.keys(sockets).length == 0) {
+            app.set('watchingFile', false);
+            if (proc) proc.kill();
+            fs.unwatchFile('./stream/image_stream.jpg');
+        }
     });
 
-	socket.on('stop-stream', function() {
-		console.log("stop streaming");
-		stopStreaming();
+    socket.on('start-stream', function () {
+        console.log("start streaming");
+        startStreaming(io);
     });
 
-	
+    socket.on('stop-stream', function () {
+        console.log("stop streaming");
+        stopStreaming();
+    });
+
+
     socket.on('get-temp', function (data) {
         getTemperature();
     });
@@ -387,18 +355,18 @@ io.on('connection', function (socket) {
     });
 
     socket.on('set-mode', function (data) {
-		console.log("Force set mode " + data);
+        console.log("Force set mode " + data);
         setMode(data);
 
     });
-	
-	socket.on('set-light', function (mode) {
-		setLight(mode);
-	});
-	
-	socket.on('set-TV', function (mode) {
-		setTV(mode);
-	});
+
+    socket.on('set-light', function (mode) {
+        setLight(mode);
+    });
+
+    socket.on('set-TV', function (mode) {
+        setTV(mode);
+    });
 
 });
 
