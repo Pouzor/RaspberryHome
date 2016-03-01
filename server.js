@@ -16,14 +16,17 @@ var schedule = require('node-schedule');
 var influx = require('influx');
 var basicAuth = require('basic-auth-connect');
 
-app.use(basicAuth(config.auth.username, config.auth.password));
+//Steam
 var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
 var proc;
-app.use('/', express.static(path.join(__dirname, 'stream')));
 var sockets = {};
 
+//Secu
+app.use(basicAuth(config.auth.username, config.auth.password));
+
+app.use('/', express.static(path.join(__dirname, 'stream')));
 app.disable('etag');
 app.use(express.static(__dirname + '/app')); 		// set the static files location /public/img will be /img for users
 app.use(morgan('dev')); 					// log every request to the console
@@ -32,31 +35,6 @@ app.use(bodyParser.json()); // parse application/json
 app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
 
-function stopStreaming() {
-    app.set('watchingFile', false);
-    if (proc) proc.kill();
-    fs.unwatchFile('./stream/image_stream.jpg');
-}
-
-function startStreaming(io) {
-
-    if (app.get('watchingFile')) {
-        io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-        return;
-    }
-
-    var args = ["-w", "640", "-h", "480", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
-    proc = spawn('raspistill', args);
-
-    console.log('Watching for changes...');
-
-    app.set('watchingFile', true);
-
-    fs.watchFile('./stream/image_stream.jpg', function (current, previous) {
-        io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-    })
-
-}
 
 
 var mode = "eco";
@@ -100,7 +78,7 @@ var rule = new schedule.RecurrenceRule();
 rule.minute = new schedule.Range(0, 59, 5);
 schedule.scheduleJob(rule, function () {
     getTemperature(true);
-    exec("python scripts/Adafruit_DHT.py  22 4", function (error, stdout, stderr) {
+    exec("python scripts/Adafruit_DHT.py 22 4", function (error, stdout, stderr) {
 
         var data = stdout.split(" ");
 
@@ -163,6 +141,33 @@ function setTV(mode) {
         if (error)
             console.log(error);
     });
+}
+////////////////////////// STREAM ////////////////////
+
+function stopStreaming() {
+    app.set('watchingFile', false);
+    if (proc) proc.kill();
+    fs.unwatchFile('./stream/image_stream.jpg');
+}
+
+function startStreaming(io) {
+
+    if (app.get('watchingFile')) {
+        io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
+        return;
+    }
+
+    var args = ["-w", "640", "-h", "480", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
+    proc = spawn('raspistill', args);
+
+    console.log('Watching for changes...');
+
+    app.set('watchingFile', true);
+
+    fs.watchFile('./stream/image_stream.jpg', function (current, previous) {
+        io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
+    })
+
 }
 
 //////////////////////// CRON ///////////////////////
