@@ -76,7 +76,7 @@ var modeActive = {
 	"confort" : "off",
 	"eco": "on"
 };
-
+var lastTemp = 0;
 
 var client = influx({
   host : 'localhost',
@@ -290,11 +290,13 @@ function getHomeTemp() {
         console.log('Exec get Home TEMP');
         var data = stdout.split(" ");
 
-        if (data[4] && data[8])
+        if (data[4] && data[8]) {
             io.emit('home', {
                 temperature: data[4],
                 humidity: data[8]
             });
+			lastTemp = data[4];
+		}
     });
 
 
@@ -322,7 +324,7 @@ app.post('/api/authenticate', function (req, res) {
 
 app.get('/api/temperature', function (req, res) {
 	console.log('api/temprature');
-    res.json({temp: 20});
+    res.json({temp: lastTemp});
     
 
 });

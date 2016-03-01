@@ -31,6 +31,7 @@ var MY_SENSOR = {
 		});
 		resp.on('end', function() {
             // Data reception is done, do whatever with it!
+			console.log(body);
            var parsed = JSON.parse(body);
 		   console.log('getTemp ' + parsed.temp);
            MY_SENSOR.currentTemperature = parsed.temp;
