@@ -321,7 +321,7 @@ app.post('/api/authenticate', function (req, res) {
 
 
 app.get('/api/temperature', function (req, res) {
-   
+	console.log('api/temprature');
     res.json({temp: 20});
     
 
