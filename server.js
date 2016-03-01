@@ -320,6 +320,14 @@ app.post('/api/authenticate', function (req, res) {
 });
 
 
+app.get('/api/temperature', function (req, res) {
+   
+    res.json({temp: 20});
+    
+
+});
+
+
 
 // ============================= Socket ================================== //
 
