@@ -296,11 +296,9 @@ app.post('/api/authenticate', function (req, res) {
 });
 
 
-app.get('/api/temperature', function (req, res) {
-    console.log('api/temprature');
-    res.json({temp: lastTemp});
-
-
+app.get('/api/home', function (req, res) {
+    console.log('api/home');
+    res.json({temperature: lastTemp, humidity: lastHumidity});
 });
 
 
