@@ -79,15 +79,23 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 		console.log("Action start");
 		socket.emit('start-stream');
 		$('.start').hide();
-	}
+	};
 	
 	$scope.stopStream = function() {
 		console.log("stop camera");
 		$('#stream').attr('src', "");
 		socket.emit('stop-stream');
 		$('.start').show();
-	}
-	
+	};
+
+
+    //demo
+    $scope.setDemo2 = function(mode) {
+        socket.emit('setDemo2', mode);
+    };
+    $scope.setDemo1 = function(mode) {
+        socket.emit('setDemo1', mode);
+    };
 	
 });
 

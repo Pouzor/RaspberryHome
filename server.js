@@ -324,7 +324,7 @@ app.get('/api/light', function (req, res) {
         console.log("Got error: " + e.message);
     });
 
-    req.write('{"state": mode}');
+    req.write('{"state": '+mode+'}');
     req.end();
 
     res.json({});
@@ -352,7 +352,7 @@ app.get('/api/fan', function (req, res) {
         console.log("Got error: " + e.message);
     });
 
-    req.write('{"state": mode}');
+    req.write('{"state": '+mode+'}');
     req.end();
 
     res.json({});
@@ -426,6 +426,50 @@ io.on('connection', function (socket) {
     socket.on('set-TV', function (mode) {
         setTV(mode);
     });
+
+    //demo
+    socket.on('setDemo2', function (mode) {
+        console.log('ventilateur '+ mode);
+        var options = {
+            host: "192.168.0.5",
+            port: 80,
+            path: '/api/nodes/2/sensors/2',
+            method: 'PUT'
+        };
+        console.log(options);
+        var req = http.request(options, function (resp) {
+
+            resp.on('end', function () {
+            });
+        }).on("error", function (e) {
+            console.log("Got error: " + e.message);
+        });
+
+        req.write('{"state": '+mode+'}');
+        req.end();
+    });
+    
+    socket.on('setDemo1', function (mode) {
+        console.log('lampe '+ mode);
+        var options = {
+            host: "192.168.0.5",
+            port: 80,
+            path: '/api/nodes/2/sensors/1',
+            method: 'PUT'
+        };
+        console.log(options);
+        var req = http.request(options, function (resp) {
+
+            resp.on('end', function () {
+            });
+        }).on("error", function (e) {
+            console.log("Got error: " + e.message);
+        });
+
+        req.write('{"state": '+mode+'}');
+        req.end();
+    });
+
 
 });
 
