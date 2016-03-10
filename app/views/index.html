@@ -68,7 +68,23 @@
                     </div>
                 </div>
             </div>
+            <div class="modal fade" id="modalCamera" tabindex="-1" role="dialog" aria-labelledby="myModalCameraLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalCameraLabel">Camera</h4>
+                        </div>
+                        <div class="modal-body">
+                            <img src="{{stream}}" id="stream" style="">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="col-lg-3">
                 <div class="panel panel-primary">
@@ -108,9 +124,10 @@
                         Camera
                         <button type="button" id="" class="btn btn-info start btn-xs" data-ng-click="startStream()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start</button>
                         <button type="button" id="" class="btn btn-info stop btn-xs" data-ng-click="stopStream()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop</button>
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true" data-toggle="modal" data-target="#modalCamera"></span>
                     </div>
                     <div class="panel-body">
-						<img src="{{stream}}" id="stream" style="height: 140px">
+						<img src="{{stream}}" id="streamFull" style="height: 140px">
                     </div>
                 </div>
             </div>
@@ -239,6 +256,9 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#modalTemp').modal({
+            show: false
+        });
+        $('#modalCamera').modal({
             show: false
         });
     })

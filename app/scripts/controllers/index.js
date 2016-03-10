@@ -71,6 +71,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	socket.on('liveStream', function(url) {
 		console.log("On recoit le steamm");
 		$('#stream').attr('src', url);
+        $('#streamFull').attr('src', url);
 		$scope.stream = url;
 		$('.start').hide();
     });
@@ -84,6 +85,7 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	$scope.stopStream = function() {
 		console.log("stop camera");
 		$('#stream').attr('src', "");
+        $('#streamFull').attr('src', "");
 		socket.emit('stop-stream');
 		$('.start').show();
 	};
