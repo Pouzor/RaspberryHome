@@ -448,7 +448,7 @@ io.on('connection', function (socket) {
         req.write('{"state": '+mode+'}');
         req.end();
     });
-    
+
     socket.on('setDemo1', function (mode) {
         console.log('lampe '+ mode);
         var options = {
