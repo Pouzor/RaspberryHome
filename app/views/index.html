@@ -14,7 +14,8 @@
                         <p id="p_uptime"><span class="glyphicon glyphicon-off" aria-hidden="true"></span>
                             {{infos.uptime}} up
                         </p>
-                        <br />
+                        <br/>
+
                         <p>
                             <i class="fa fa-laptop"></i> {{cpu | number:1}} %&nbsp;&nbsp;
                             <i class="fa fa-tasks"></i> {{mem | number:1 }} %&nbsp;&nbsp;
@@ -23,7 +24,6 @@
                     </div>
                 </div>
             </div>
-
 
 
             <div class="col-lg-3">
@@ -36,9 +36,9 @@
                             {{home.temperature | number:1}} °C / {{modeTemperature}}°C<br/><br/>
                             {{home.humidity | number:1}}%<br/><br/>
                             Mode : {{mode}} &nbsp;
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true" data-toggle="modal" data-target="#modalTemp"></span>
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true" data-toggle="modal"
+                                  data-target="#modalTemp"></span>
                         </p>
-
 
 
                     </div>
@@ -50,11 +50,12 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalLabel">Modification du mode</h4>
                         </div>
                         <div class="modal-body">
-                            Change mode : <br /><br />
+                            Change mode : <br/><br/>
                             <select ng-model="mode" class="form-control">
                                 <option value="confort">Confort</option>
                                 <option value="eco">Eco</option>
@@ -63,16 +64,18 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" data-ng-click="setMode()">Save changes</button>
+                            <button type="button" class="btn btn-primary" data-ng-click="setMode()">Save changes
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal fade" id="modalCamera" tabindex="-1" role="dialog" aria-labelledby="myModalCameraLabel">
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
                             <h4 class="modal-title" id="myModalCameraLabel">Camera</h4>
                         </div>
                         <div class="modal-body">
@@ -122,12 +125,17 @@
                 <div class="panel panel-primary">
                     <div class="panel-heading"><i class="fa fa-video-camera"></i></span>
                         Camera
-                        <button type="button" id="" class="btn btn-info start btn-xs" data-ng-click="startStream()"><span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start</button>
-                        <button type="button" id="" class="btn btn-info stop btn-xs" data-ng-click="stopStream()"><span class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop</button>
-                        <span class="glyphicon glyphicon-cog" aria-hidden="true" data-toggle="modal" data-target="#modalCamera"></span>
+                        <button type="button" id="" class="btn btn-info start btn-xs" data-ng-click="startStream()">
+                            <span class="glyphicon glyphicon-play" aria-hidden="true"></span> Start
+                        </button>
+                        <button type="button" id="" class="btn btn-info stop btn-xs" data-ng-click="stopStream()"><span
+                                class="glyphicon glyphicon-stop" aria-hidden="true"></span> Stop
+                        </button>
+                        <span class="glyphicon glyphicon-resize-full" aria-hidden="true" data-toggle="modal"
+                              data-target="#modalCamera"></span>
                     </div>
                     <div class="panel-body">
-						<img src="{{stream}}" id="streamFull" style="height: 140px">
+                        <img src="{{stream}}" id="streamFull" style="height: 140px">
                     </div>
                 </div>
             </div>
@@ -159,14 +167,15 @@
                     <div class="panel-body">
                         <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-1"
                                 data-ng-click="pressTV('KEY_POWER')"><span class="glyphicon glyphicon-off"
-                                                                             aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressTV('KEY_VOLUMEDOWN')"><span
+                                                                           aria-hidden="true"></span></button>
+                        <button type="button" class="btn btn-primary col-lg-2"
+                                data-ng-click="pressTV('KEY_VOLUMEDOWN')"><span
                                 class="glyphicon glyphicon-volume-down" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressTV('KEY_VOLUMEUP')"><span
+                        <button type="button" class="btn btn-primary col-lg-2"
+                                data-ng-click="pressTV('KEY_VOLUMEUP')"><span
                                 class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></button>
 
                         <br/><br/>
-
 
 
                     </div>
@@ -184,9 +193,11 @@
                         <button type="button" class="btn btn-primary col-lg-2 col-lg-offset-1"
                                 data-ng-click="pressHiFi('KEY_POWER')"><span class="glyphicon glyphicon-off"
                                                                              aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('KEY_VOLUMEDOWN')"><span
+                        <button type="button" class="btn btn-primary col-lg-2"
+                                data-ng-click="pressHiFi('KEY_VOLUMEDOWN')"><span
                                 class="glyphicon glyphicon-volume-down" aria-hidden="true"></span></button>
-                        <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('KEY_VOLUMEUP')"><span
+                        <button type="button" class="btn btn-primary col-lg-2"
+                                data-ng-click="pressHiFi('KEY_VOLUMEUP')"><span
                                 class="glyphicon glyphicon-volume-up" aria-hidden="true"></span></button>
                         <button type="button" class="btn btn-primary col-lg-2" data-ng-click="pressHiFi('')"><span
                                 class="glyphicon glyphicon-music" aria-hidden="true"></span></button>
@@ -213,48 +224,13 @@
             </div>
 
 
-
-
         </div>
-        <div class="row ">
-            <div class="col-lg-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Demo Lampe
-                    </div>
-                    <div class="panel-body">
-                        <p class="large">
-                            <button type="button" class="btn btn-primary col-lg-3" data-ng-click="setDemo1(1)">On</button>
-                            <button type="button" class="btn btn-primary col-lg-3" data-ng-click="setDemo1(0)">Off</button>
-                        </p>
 
-                    </div>
-
-                </div>
-
-            </div>
-            <div class="col-lg-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        Demo Ventilateur
-                    </div>
-                    <div class="panel-body">
-                        <p class="large">
-                            <button type="button" class="btn btn-primary col-lg-3" data-ng-click="setDemo2(1)">On</button>
-                            <button type="button" class="btn btn-primary col-lg-3" data-ng-click="setDemo2(0)">Off</button>
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
 
     </div>
 </div>
 <script type="text/javascript">
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#modalTemp').modal({
             show: false
         });

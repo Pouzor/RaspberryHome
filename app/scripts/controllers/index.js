@@ -90,14 +90,6 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 		$('.start').show();
 	};
 
-
-    //demo
-    $scope.setDemo2 = function(mode) {
-        socket.emit('setDemo2', mode);
-    };
-    $scope.setDemo1 = function(mode) {
-        socket.emit('setDemo1', mode);
-    };
 	
 });
 
