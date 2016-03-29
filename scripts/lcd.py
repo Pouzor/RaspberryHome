@@ -7,6 +7,7 @@
 #
 
 from time import sleep
+import sys
 
 class Adafruit_CharLCD:
 
@@ -257,4 +258,4 @@ if __name__ == '__main__':
 
     lcd.clear()
     #lcd.message(" LCD 1602 Test \n123456789ABCDEF")
-    lcd.message("   CPT POUZOR \n   <3 <3")
+    lcd.message(sys.argv[1] + "\n" + sys.argv[2])
