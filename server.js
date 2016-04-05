@@ -35,10 +35,32 @@ app.use(bodyParser.json()); // parse application/json
 app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
 
+var heaters = {
+	"salon": {
+		"mode" : "eco",
+		"temperatureCible" : 17,
+		"relais" : ["12325261", "12325262"],
+		"lastTemperature" : 0,
+		"lastHumidity" : 0
+		},
+	"chambre 1" : {
+		"mode" : "eco",
+		"temperatureCible" : 17,
+		"relais" : ["12325263"],
+		"lastTemperature" : 0,
+		"lastHumidity" : 0
+	},
+	"chambre 2" : {
+		"mode" : "eco",
+		"temperatureCible" : 17,
+		"relais" : ["12325264"],
+		"lastTemperature" : 0,
+		"lastHumidity" : 0
+	}
+}
 
-
-var mode = "eco";
-var temperatureCible = 17;
+//var mode = "eco";
+//var temperatureCible = 17;
 var modeTemp = {
     "confort": 20,
     "eco": 17
@@ -48,8 +70,8 @@ var modeActive = {
     "eco": "on"
 };
 
-var lastTemp = 0;
-var lastHumidity = 0;
+//var lastTemp = 0;
+//var lastHumidity = 0;
 
 var client = influx({
     host: 'localhost',
@@ -86,20 +108,26 @@ schedule.scheduleJob(rule, function () {
             console.log('Send data to influx');
             client.writePoint("temperature", parseFloat(data[4]), {temperature: 'temperature'}, {precision: 's'}, done);
             client.writePoint("humidity", parseFloat(data[8]), null, done);
-            lastHumidity = data[8];
-            lastTemp = data[4];
+        //    lastHumidity = data[8];
+        //    lastTemp = data[4];
+			heaters["salon"].lastTemperature = data[8];
+			heaters["salon"].lastHumidity = data[4];
         }
 
     });
-    client.writePoint("temperatureCible", temperatureCible, null, done);
+    client.writePoint("temperatureCible", heaters[room].temperatureCible, null, done);
 });
 
 
-function setMode(m) {
-    mode = m;
-    temperatureCible = modeTemp[m];
-    client.writePoint("temperatureCible", temperatureCible, null, done);
-    callChacon(m);
+function setMode(m, room) {
+    //mode = m;
+	heaters[room].mode = m;
+   // temperatureCible = modeTemp[m];
+	heaters[room].temperatureCible = modeTemp[m];
+	
+    client.writePoint("temperatureCible", heaters[room].temperatureCible, null, done);
+    
+	callChacon(m);
 
 }
 
@@ -178,7 +206,7 @@ semaineStart.hour = [6, 17];
 semaineStart.minute = 0;
 schedule.scheduleJob(semaineStart, function () {
     console.log('Start mode confort');
-    setMode("confort");
+    setMode("confort", "salon");
 });
 
 var semaineStop = new schedule.RecurrenceRule();
@@ -187,7 +215,7 @@ semaineStop.hour = [8, 1];
 semaineStop.minute = 0;
 schedule.scheduleJob(semaineStop, function () {
     console.log('stop mode confort');
-    setMode("eco");
+    setMode("eco", "salon");
 });
 
 var weStart = new schedule.RecurrenceRule();
@@ -196,7 +224,7 @@ weStart.hour = [7];
 weStart.minute = 30;
 schedule.scheduleJob(weStart, function () {
     console.log('Start mode confort WE');
-    setMode("confort");
+    setMode("confort", "salon");
 });
 
 var weStop = new schedule.RecurrenceRule();
@@ -205,7 +233,7 @@ weStop.hour = [1];
 weStop.minute = 10;
 schedule.scheduleJob(weStop, function () {
     console.log('stop mode confort WE');
-    setMode("eco");
+    setMode("eco", "salon");
 });
 
 
@@ -275,8 +303,9 @@ function getHomeTemp() {
     console.log('Call get Home TEMP');
 
     io.emit('home', {
-        temperature: lastTemp,
-        humidity: lastHumidity
+        temperature: heaters["salon"].lastTemperature,
+        humidity: heaters["salon"].lastHumidity;
+        }
     });
 
 }
@@ -298,7 +327,7 @@ app.post('/api/authenticate', function (req, res) {
 
 app.get('/api/home', function (req, res) {
     console.log('api/home');
-    res.json({temperature: lastTemp, humidity: lastHumidity});
+    res.json({temperature: heaters["salon"].lastTemperature, humidity: heaters["salon"].lastHumidity});
 });
 
 
@@ -353,14 +382,14 @@ io.on('connection', function (socket) {
 
     socket.on('get-mode', function (data) {
         io.emit('mode', {
-            mode: mode,
-            temp: modeTemp[mode]
+            mode: heaters["salon"].mode,
+            temp: modeTemp[heaters["salon"].mode]
         });
     });
 
     socket.on('set-mode', function (data) {
         console.log("Force set mode " + data);
-        setMode(data);
+        setMode(data, "salon");
 
     });
 
