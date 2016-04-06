@@ -57,10 +57,8 @@ var heaters = {
 		"lastTemperature" : 0,
 		"lastHumidity" : 0
 	}
-}
+};
 
-//var mode = "eco";
-//var temperatureCible = 17;
 var modeTemp = {
     "confort": 20,
     "eco": 17
@@ -69,9 +67,6 @@ var modeActive = {
     "confort": "off",
     "eco": "on"
 };
-
-//var lastTemp = 0;
-//var lastHumidity = 0;
 
 var client = influx({
     host: 'localhost',
@@ -108,25 +103,21 @@ schedule.scheduleJob(rule, function () {
             console.log('Send data to influx');
             client.writePoint("temperature", parseFloat(data[4]), {temperature: 'temperature'}, {precision: 's'}, done);
             client.writePoint("humidity", parseFloat(data[8]), null, done);
-        //    lastHumidity = data[8];
-        //    lastTemp = data[4];
+
 			heaters["salon"].lastTemperature = data[8];
 			heaters["salon"].lastHumidity = data[4];
         }
 
     });
-    client.writePoint("temperatureCible", heaters[room].temperatureCible, null, done);
+    client.writePoint("temperatureCible", heaters["salon"].temperatureCible, null, done);
 });
 
 
 function setMode(m, room) {
-    //mode = m;
 	heaters[room].mode = m;
-   // temperatureCible = modeTemp[m];
 	heaters[room].temperatureCible = modeTemp[m];
 	
     client.writePoint("temperatureCible", heaters[room].temperatureCible, null, done);
-    
 	callChacon(m);
 
 }
@@ -236,9 +227,6 @@ schedule.scheduleJob(weStop, function () {
     setMode("eco", "salon");
 });
 
-
-////////////////////////
-
 function getTemperature(save) {
     exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {
         if (error) {
@@ -304,9 +292,9 @@ function getHomeTemp() {
 
     io.emit('home', {
         temperature: heaters["salon"].lastTemperature,
-        humidity: heaters["salon"].lastHumidity;
+        humidity: heaters["salon"].lastHumidity
         }
-    });
+    );
 
 }
 
