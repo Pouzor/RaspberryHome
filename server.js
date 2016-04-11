@@ -110,6 +110,8 @@ schedule.scheduleJob(rule, function () {
 
     });
     client.writePoint("temperatureCible_salon", heaters["salon"].temperatureCible, null, done);
+    client.writePoint("temperatureCible_chambre 1", heaters["chambre 1"].temperatureCible, null, done);
+    client.writePoint("temperatureCible_chambre 2", heaters["chambre 2"].temperatureCible, null, done);
 });
 
 
