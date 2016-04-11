@@ -116,29 +116,38 @@ schedule.scheduleJob(rule, function () {
 
 
 function setMode(m, room) {
+    console.log("set mode "+m+" on "+room);
+
 	heaters[room].mode = m;
 	heaters[room].temperatureCible = modeTemp[m];
 	
     client.writePoint("temperatureCible_"+room, heaters[room].temperatureCible, null, done);
-	callChacon(m);
+	callChacon(m, room);
 
 }
 
 
-function callChacon(m) {
-    exec("./scripts/chacon_send/chacon_send 6 12325261 1 " + modeActive[m], function (error, stdout, stderr) {
-        if (error)
-            console.log(error);
-
-        console.log('Send mode chacon 1 : ' + modeActive[m]);
-
-        exec("./scripts/chacon_send/chacon_send 6 12325262 1 " + modeActive[m], function (error, stdout, stderr) {
+function callChacon(m, room) {
+    if (room == "salon" || room == undefined) {
+        exec("./scripts/chacon_send/chacon_send 6 12325261 1 " + modeActive[m], function (error, stdout, stderr) {
             if (error)
                 console.log(error);
-            console.log('Send mode chacon 2 : ' + modeActive[m]);
-        });
-    });
 
+            console.log('Send mode chacon 1 : ' + modeActive[m]);
+
+            exec("./scripts/chacon_send/chacon_send 6 12325262 1 " + modeActive[m], function (error, stdout, stderr) {
+                if (error)
+                    console.log(error);
+                console.log('Send mode chacon 2 : ' + modeActive[m]);
+            });
+        });
+    } else {
+        exec("./scripts/chacon_send/chacon_send 6 "+heaters[room].relais[0]+" 1 " + modeActive[m], function (error, stdout, stderr) {
+            if (error)
+                console.log(error);
+            console.log('Send mode chacon '+room+' : ' + modeActive[m]);
+        });
+    }
 }
 
 function done(err, response) {
@@ -403,7 +412,6 @@ io.on('connection', function (socket) {
     });
 
     socket.on('set-mode', function (data) {
-        console.log("Force set mode " + data.mode);
         setMode(data.mode, data.room);
 
     });

@@ -139,7 +139,7 @@
             </div>
         </div>
 
-        <div class="row ">
+        <div class="row " id="chambreRow">
             <div class="col-lg-3">
                 <div class="panel panel-primary">
                     <div class="panel-heading"><i class="fa fa-bed"></i>
@@ -147,7 +147,7 @@
                     </div>
                     <div class="panel-body">
                         <p class="large">
-                            <input type="checkbox" name="my-checkbox" checked>
+                            <input type="checkbox" name="my-checkbox" id="switchChambre1"/>
                         </p>
                     </div>
                 </div>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="panel-body">
                         <p class="large">
-                            <input type="checkbox" name="my-checkbox" checked>
+                            <input type="checkbox" name="my-checkbox" id="switchChambre2"/>
                         </p>
                     </div>
                 </div>
@@ -237,6 +237,14 @@
 
         $("[name='my-checkbox']").bootstrapSwitch();
 
+        $("#switchChambre1").on('switchChange.bootstrapSwitch', function(event, state) {
+            angular.element('#chambreRow').scope().setMode('chambre 1', state);
+            angular.element('#chambreRow').scope().$apply();
+        });
+        $("#switchChambre2").on('switchChange.bootstrapSwitch', function(event, state) {
+            angular.element('#chambreRow').scope().setMode('chambre 2', state);
+            angular.element('#chambreRow').scope().$apply();
+        });
     })
 
 </script>
