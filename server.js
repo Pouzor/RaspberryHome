@@ -109,7 +109,7 @@ schedule.scheduleJob(rule, function () {
         }
 
     });
-    client.writePoint("temperatureCible", heaters["salon"].temperatureCible, null, done);
+    client.writePoint("temperatureCible_salon", heaters["salon"].temperatureCible, null, done);
 });
 
 
@@ -117,7 +117,7 @@ function setMode(m, room) {
 	heaters[room].mode = m;
 	heaters[room].temperatureCible = modeTemp[m];
 	
-    client.writePoint("temperatureCible", heaters[room].temperatureCible, null, done);
+    client.writePoint("temperatureCible_"+room, heaters[room].temperatureCible, null, done);
 	callChacon(m);
 
 }
