@@ -56,8 +56,8 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     });
 	
 	
-	$scope.setMode = function() {
-		socket.emit('set-mode', $scope.mode);
+	$scope.setMode = function(room) {
+		socket.emit('set-mode', {mode: $scope.mode, room: room});
 	};
 	
 	$scope.pressLight = function (mode) {

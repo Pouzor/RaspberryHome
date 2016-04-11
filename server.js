@@ -209,6 +209,31 @@ schedule.scheduleJob(semaineStop, function () {
     setMode("eco", "salon");
 });
 
+/////////////////////////// CHAMBRE //////////////////////////
+
+var semaineChambreStart = new schedule.RecurrenceRule();
+semaineChambreStart.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
+semaineChambreStart.hour = [17];
+semaineChambreStart.minute = 0;
+schedule.scheduleJob(semaineChambreStart, function () {
+    console.log('Start mode confort chambres');
+    setMode("confort", "chambre 1");
+    setMode("confort", "chambre 2");
+});
+
+var semaineChambreStop = new schedule.RecurrenceRule();
+semaineChambreStop.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
+semaineChambreStop.hour = [8];
+semaineChambreStop.minute = 0;
+schedule.scheduleJob(semaineChambreStop, function () {
+    console.log('stop mode confort chambres');
+    setMode("eco", "chambre 1");
+    setMode("eco", "chambre 2");
+
+});
+
+//////////////////////////////////////////////////////////////
+
 var weStart = new schedule.RecurrenceRule();
 weStart.dayOfWeek = [6, 0];
 weStart.hour = [7];
@@ -376,8 +401,8 @@ io.on('connection', function (socket) {
     });
 
     socket.on('set-mode', function (data) {
-        console.log("Force set mode " + data);
-        setMode(data, "salon");
+        console.log("Force set mode " + data.mode);
+        setMode(data.mode, data.room);
 
     });
 
