@@ -104,8 +104,8 @@ schedule.scheduleJob(rule, function () {
             client.writePoint("temperature", parseFloat(data[4]), {temperature: 'temperature'}, {precision: 's'}, done);
             client.writePoint("humidity", parseFloat(data[8]), null, done);
 
-			heaters["salon"].lastTemperature = data[8];
-			heaters["salon"].lastHumidity = data[4];
+			heaters["salon"].lastTemperature = data[4];
+			heaters["salon"].lastHumidity = data[8];
         }
 
     });
