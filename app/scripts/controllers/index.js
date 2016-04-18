@@ -8,6 +8,8 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
         temperature : 0,
         humidity: 0
     };
+    $scope.chambre1 = {};
+    $scope.chambre2 = {};
 
     socket.emit('get-mem');
     socket.emit('get-temp');
@@ -15,7 +17,32 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
     socket.emit('get-infos');
 	socket.emit('get-home');
 	socket.emit('get-mode');
-	
+	socket.emit('get-rooms');
+
+
+    socket.on('rooms', function (data) {
+
+            if (data.chambre1.mode == 'eco') {
+                $scope.chambre1 = false;
+                jQuery("#switchChambre1").bootstrapSwitch('state', false);
+            }
+            else {
+                $scope.chambre1 = true;
+                jQuery("#switchChambre1").bootstrapSwitch('state', true);
+            }
+
+            if (data.chambre2.mode == 'eco') {
+                $scope.chambre2 = false;
+                jQuery("#switchChambre2").bootstrapSwitch('state', false);
+            }
+            else {
+                $scope.chambre2 = true;
+                jQuery("#switchChambre2").bootstrapSwitch('state', true);
+            }
+
+
+    });
+
     socket.on('temperature', function(data) {
         $scope.$apply(function () {
             $scope.temperature = data.temp;
@@ -57,8 +84,6 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	
 	
 	$scope.setMode = function(room, state) {
-        console.log($scope.chambre1);
-
         if (state != undefined) {
             if (state)
                 socket.emit('set-mode', {mode: 'confort', room: room});

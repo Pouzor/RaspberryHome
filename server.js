@@ -36,27 +36,27 @@ app.use(methodOverride('X-HTTP-Method-Override')); //// simulate DELETE and PUT
 
 
 var heaters = {
-	"salon": {
-		"mode" : "eco",
-		"temperatureCible" : 17,
-		"relais" : ["12325261", "12325262"],
-		"lastTemperature" : 0,
-		"lastHumidity" : 0
-		},
-	"chambre 1" : {
-		"mode" : "eco",
-		"temperatureCible" : 17,
-		"relais" : ["12325263"],
-		"lastTemperature" : 0,
-		"lastHumidity" : 0
-	},
-	"chambre 2" : {
-		"mode" : "eco",
-		"temperatureCible" : 17,
-		"relais" : ["12325264"],
-		"lastTemperature" : 0,
-		"lastHumidity" : 0
-	}
+    "salon": {
+        "mode": "eco",
+        "temperatureCible": 17,
+        "relais": ["12325261", "12325262"],
+        "lastTemperature": 0,
+        "lastHumidity": 0
+    },
+    "chambre 1": {
+        "mode": "eco",
+        "temperatureCible": 17,
+        "relais": ["12325263"],
+        "lastTemperature": 0,
+        "lastHumidity": 0
+    },
+    "chambre 2": {
+        "mode": "eco",
+        "temperatureCible": 17,
+        "relais": ["12325264"],
+        "lastTemperature": 0,
+        "lastHumidity": 0
+    }
 };
 
 var modeTemp = {
@@ -104,8 +104,8 @@ schedule.scheduleJob(rule, function () {
             client.writePoint("temperature", parseFloat(data[4]), {temperature: 'temperature'}, {precision: 's'}, done);
             client.writePoint("humidity", parseFloat(data[8]), null, done);
 
-			heaters["salon"].lastTemperature = data[4];
-			heaters["salon"].lastHumidity = data[8];
+            heaters["salon"].lastTemperature = data[4];
+            heaters["salon"].lastHumidity = data[8];
         }
 
     });
@@ -116,13 +116,13 @@ schedule.scheduleJob(rule, function () {
 
 
 function setMode(m, room) {
-    console.log("set mode "+m+" on "+room);
+    console.log("set mode " + m + " on " + room);
 
-	heaters[room].mode = m;
-	heaters[room].temperatureCible = modeTemp[m];
-	
-    client.writePoint("temperatureCible_"+room, heaters[room].temperatureCible, null, done);
-	callChacon(m, room);
+    heaters[room].mode = m;
+    heaters[room].temperatureCible = modeTemp[m];
+
+    client.writePoint("temperatureCible_" + room, heaters[room].temperatureCible, null, done);
+    callChacon(m, room);
 
 }
 
@@ -142,10 +142,10 @@ function callChacon(m, room) {
             });
         });
     } else {
-        exec("./scripts/chacon_send/chacon_send 6 "+heaters[room].relais[0]+" 1 " + modeActive[m], function (error, stdout, stderr) {
+        exec("./scripts/chacon_send/chacon_send 6 " + heaters[room].relais[0] + " 1 " + modeActive[m], function (error, stdout, stderr) {
             if (error)
                 console.log(error);
-            console.log('Send mode chacon '+room+' : ' + modeActive[m]);
+            console.log('Send mode chacon ' + room + ' : ' + modeActive[m]);
         });
     }
 }
@@ -187,7 +187,7 @@ function startStreaming(io) {
         return;
     }
 
-    var args = ["-w", "1024", "-h", "720", "-n", "-q","75","-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
+    var args = ["-w", "1024", "-h", "720", "-n", "-q", "75", "-o", "./stream/image_stream.jpg", "-t", "999999999", "-tl", "100"];
     proc = spawn('raspistill', args);
 
     console.log('Watching for changes...');
@@ -322,13 +322,19 @@ function getInfos() {
     });
 }
 
+function getRooms() {
+    io.emit('rooms', {
+        chambre1: heaters["chambre 1"],
+        chambre2: heaters["chambre 2"]
+    });
+}
 
 function getHomeTemp() {
     console.log('Call get Home TEMP');
 
     io.emit('home', {
-        temperature: heaters["salon"].lastTemperature,
-        humidity: heaters["salon"].lastHumidity
+            temperature: heaters["salon"].lastTemperature,
+            humidity: heaters["salon"].lastHumidity
         }
     );
 
@@ -353,7 +359,6 @@ app.get('/api/home', function (req, res) {
     console.log('api/home');
     res.json({temperature: heaters["salon"].lastTemperature, humidity: heaters["salon"].lastHumidity});
 });
-
 
 
 // ============================= Socket ================================== //
@@ -403,6 +408,11 @@ io.on('connection', function (socket) {
     socket.on('get-mem', function (data) {
         getMem();
     });
+
+    socket.on('get-rooms', function (data) {
+        getRooms();
+    });
+
 
     socket.on('get-mode', function (data) {
         io.emit('mode', {
