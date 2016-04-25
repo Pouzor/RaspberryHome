@@ -24,7 +24,7 @@ var proc;
 var sockets = {};
 
 //Secu
-app.use(basicAuth(config.auth.username, config.auth.password));
+//app.use(basicAuth(config.auth.username, config.auth.password));
 
 app.use('/', express.static(path.join(__dirname, 'stream')));
 app.disable('etag');
@@ -361,7 +361,7 @@ app.get('/api/home', function (req, res) {
 });
 
 
-app.get('/devices', function (req, res) {
+app.get('/ever/devices', function (req, res) {
 	
 	res.json({"devices" : [
 	{
