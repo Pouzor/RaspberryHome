@@ -24,7 +24,7 @@ var proc;
 var sockets = {};
 
 //Secu
-//app.use(basicAuth(config.auth.username, config.auth.password));
+app.use(basicAuth(config.auth.username, config.auth.password));
 
 app.use('/', express.static(path.join(__dirname, 'stream')));
 app.disable('etag');
@@ -371,10 +371,10 @@ app.get('/ever/devices', function (req, res) {
 		"type" : "DevTempHygro",
 		"params" : [{
 			"key" : "temp",
-			"value" : "21.2"
+			"value" : "29.9"
 		}, {
 			"key" : "hygro",
-			"value" : "80"
+			"value" : "89"
 		}]
 	}
 	]});
