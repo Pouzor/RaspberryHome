@@ -387,6 +387,21 @@ app.get('/ever/system', function (req, res) {
 	});
 });
 
+app.get('/ever/rooms', function (req, res) {
+	res.json({
+		"rooms": [
+			{
+				"id" : "salon",
+				"name" : "Salon"
+			},
+			{
+				"id" : "chambre1",
+				"name" : "Chambre parents"
+			}
+		]
+	})
+});
+
 // ============================= Socket ================================== //
 
 io.on('connection', function (socket) {
