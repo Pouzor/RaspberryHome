@@ -361,6 +361,25 @@ app.get('/api/home', function (req, res) {
 });
 
 
+app.get('/devices', function (req, res) {
+	
+	res.json([
+	{
+		"id" : "Temp1",
+		"name" : "Temp1",
+		"room" : "salon",
+		"type" : "DevTempHygro",
+		"params" : [{
+			"key" : "temp",
+			"value" : "21.2"
+		}, {
+			"key" : "hygro",
+			"value" : "80"
+		}]
+	}
+	]);
+});
+
 // ============================= Socket ================================== //
 
 io.on('connection', function (socket) {
