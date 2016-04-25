@@ -380,6 +380,13 @@ app.get('/ever/devices', function (req, res) {
 	]});
 });
 
+app.get('/ever/system', function (req, res) {
+	res.json({
+		"id" : "42:23:23:24:26:28",
+		"apiversion" : 1
+	});
+});
+
 // ============================= Socket ================================== //
 
 io.on('connection', function (socket) {
