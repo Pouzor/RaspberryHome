@@ -363,7 +363,7 @@ app.get('/api/home', function (req, res) {
 
 app.get('/devices', function (req, res) {
 	
-	res.json([
+	res.json({"devices" : [
 	{
 		"id" : "Temp1",
 		"name" : "Temp1",
@@ -377,7 +377,7 @@ app.get('/devices', function (req, res) {
 			"value" : "80"
 		}]
 	}
-	]);
+	]});
 });
 
 // ============================= Socket ================================== //
