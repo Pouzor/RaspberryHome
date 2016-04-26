@@ -371,12 +371,53 @@ app.get('/ever/devices', function (req, res) {
 		"type" : "DevTempHygro",
 		"params" : [{
 			"key" : "temp",
-			"value" : "29.9"
+			"value" : heaters["salon"].lastTemperature
 		}, {
 			"key" : "hygro",
-			"value" : "89"
+			"value" : heaters["salon"].lastHumidity
 		}]
-	}
+	},
+    {
+       "id" : "Thermostat",
+        "name" : "Temp1",
+        "room" : "salon",
+        "type" : "DevThermostat",
+        "params" : [{
+            "key" : "curmode",
+            "value" : heaters["salon"].mode
+        },
+        {
+            "key" : "curtemp",
+            "value" : heaters["salon"].lastTemperature
+        }, 
+        {
+            "key" : "availablemodes",
+            "value" : "eco,confort"
+        }
+        ] 
+    },
+    {
+        "id" : "Camera",
+        "name" : "Camera",
+        "room" : "salon",
+        "type" : "DevCamera",
+        "params" : [{
+            "key" : "localjpegurl",
+            "value" : "http://pouzor.hd.free.fr:8081/image_stream.jpg"
+        },
+        {
+            "key" : "remotejpegurl",
+            "value" : "http://pouzor.hd.free.fr:8081/image_stream.jpg"
+        },
+        {
+            "key" : "Login",
+            "value" : ""
+        },
+        {
+            "key" : "Password",
+            "value" : ""
+        }]
+    }
 	]});
 });
 
@@ -395,9 +436,13 @@ app.get('/ever/rooms', function (req, res) {
 				"name" : "Salon"
 			},
 			{
-				"id" : "chambre1",
+				"id" : "chambre 1",
 				"name" : "Chambre parents"
-			}
+			},
+            {
+                "id" : "chambre 2",
+                "name" : "Chambre Celia"
+            }
 		]
 	})
 });
