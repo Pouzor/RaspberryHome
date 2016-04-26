@@ -393,6 +393,22 @@ app.get('/ever/devices', function (req, res) {
         {
             "key" : "availablemodes",
             "value" : "eco,confort"
+        }, 
+        {
+            "key" : "cursetpoint",
+            "value" : heaters["salon"].temperatureCible
+        }, 
+        {
+            "key" : "step",
+            "value" : 0.5
+        }, 
+        {
+            "key" : "minVal",
+            "value" : 16
+        }, 
+        {
+            "key" : "maxVal",
+            "value" : 25
         }
         ] 
     },
