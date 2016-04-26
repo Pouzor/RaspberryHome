@@ -381,7 +381,7 @@ app.get('/ever/devices', function (req, res) {
     "id": "dev28",
       "name": "Home Thermostat",
       "type": "DevThermostat",
-      "room": "roomID1",
+      "room": "salon",
       "params": [
         {
           "key": "curmode",
