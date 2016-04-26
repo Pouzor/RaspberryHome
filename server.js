@@ -379,7 +379,7 @@ app.get('/ever/devices', function (req, res) {
 	},
     {
        "id" : "Thermostat",
-        "name" : "Temp1",
+        "name" : "Thermostat",
         "room" : "salon",
         "type" : "DevThermostat",
         "params" : [{
@@ -394,6 +394,14 @@ app.get('/ever/devices', function (req, res) {
             "key" : "availablemodes",
             "value" : "eco,confort"
         }, 
+        {
+            "key" : "availablefanmodes",
+            "value" : ""
+        }, 
+        {
+            "key" : "availablenergymodes",
+            "value" : ""
+        },
         {
             "key" : "cursetpoint",
             "value" : heaters["salon"].temperatureCible
