@@ -378,47 +378,64 @@ app.get('/ever/devices', function (req, res) {
 		}]
 	},
     {
-       "id" : "Thermostat",
-        "name" : "Thermostat",
-        "room" : "salon",
-        "type" : "DevThermostat",
-        "params" : [{
-            "key" : "curmode",
-            "value" : heaters["salon"].mode
+    "id": "dev28",
+      "name": "Home Thermostat",
+      "type": "DevThermostat",
+      "room": "roomID1",
+      "params": [
+        {
+          "key": "curmode",
+          "value": "Comfort"
         },
         {
-            "key" : "curtemp",
-            "value" : heaters["salon"].lastTemperature
-        }, 
-        {
-            "key" : "availablemodes",
-            "value" : "eco,confort"
-        }, 
-        {
-            "key" : "availablefanmodes",
-            "value" : ""
-        }, 
-        {
-            "key" : "availablenergymodes",
-            "value" : ""
+          "key": "curfanmode",
+          "value": "Off"
         },
         {
-            "key" : "cursetpoint",
-            "value" : heaters["salon"].temperatureCible
-        }, 
+          "key": "curenergymode",
+          "value": "Energy1"
+        },
         {
-            "key" : "step",
-            "value" : 0.5
-        }, 
+          "key": "curtemp",
+          "value": "19.2"
+        },
         {
-            "key" : "minVal",
-            "value" : 16
-        }, 
+          "key": "cursetpoint",
+          "value": "20.3"
+        },
         {
-            "key" : "maxVal",
-            "value" : 25
+          "key": "cursetpoint1",
+          "value": "19.0"
+        },
+        {
+          "key": "cursetpointindex",
+          "value": "0"
+        },
+        {
+          "key": "step",
+          "value": "0.5"
+        },
+        {
+          "key": "minVal",
+          "value": "12.0"
+        },
+        {
+          "key": "maxVal",
+          "value": "28.0"
+        },
+        {
+          "key": "availablemodes",
+          "value": "Comfort,Eco,Off"
+        },
+        {
+          "key": "availablefanmodes",
+          "value": "Off,Middle,High"
+        },
+        {
+          "key": "availableenergymodes",
+          "value": "Energy1,Energy2"
         }
-        ] 
+      ]
     },
     {
         "id" : "Camera",
