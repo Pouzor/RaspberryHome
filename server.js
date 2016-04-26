@@ -397,7 +397,8 @@ app.get('/ever/devices', function (req, res) {
         },
         {
           "key": "curtemp",
-          "value": "19.2"
+          "value": "19.2",
+          "unit": "Â°C"
         },
         {
           "key": "cursetpoint",
