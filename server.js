@@ -361,7 +361,7 @@ app.get('/api/home', function (req, res) {
 });
 
 
-app.get('/ever/devices', function (req, res) {
+app.get('/ever1/devices', function (req, res) {
 
     res.json({
         "devices": [
@@ -406,14 +406,14 @@ app.get('/ever/devices', function (req, res) {
     });
 });
 
-app.get('/ever/system', function (req, res) {
+app.get('/ever1/system', function (req, res) {
     res.json({
         "id": "42:23:23:24:26:28",
         "apiversion": 1
     });
 });
 
-app.get('/ever/rooms', function (req, res) {
+app.get('/ever1/rooms', function (req, res) {
     res.json({
         "rooms": [
             {
