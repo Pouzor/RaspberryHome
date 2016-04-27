@@ -418,7 +418,7 @@ app.get('/ever/system', function (req, res) {
     });
 });
 
-app.get('/ever/devices/DevLock/action/setStatus/:action', function(req, res) {
+app.get('/ever/devices/dev03/action/setStatus/:action', function(req, res) {
     if (req.params.action == "1"){
         startStreaming(io);
     } else {
