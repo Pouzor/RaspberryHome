@@ -366,19 +366,6 @@ app.get('/ever/devices', function (req, res) {
     res.json({
         "devices": [
             {
-                "id": "Temp1",
-                "name": "Temp1",
-                "room": "salon",
-                "type": "DevTempHygro",
-                "params": [{
-                    "key": "temp",
-                    "value": heaters["salon"].lastTemperature
-                }, {
-                    "key": "hygro",
-                    "value": heaters["salon"].lastHumidity
-                }]
-            },
-            {
                 "id": "dev04",
                 "name": "My Camera",
                 "type": "DevCamera",
