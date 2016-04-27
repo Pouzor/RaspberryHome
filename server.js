@@ -386,20 +386,13 @@ app.get('/ever1/devices', function (req, res) {
                 "params": [
                     {
                         "key": "localjpegurl",
-                        "value": "http://cascam.ou.edu/axis-cgi/jpg/image.cgi?resolution=320x240"
+                        "value": "http://pouzor.hd.free.fr:8081/image_stream.jpg"
                     },
                     {
                         "key": "remotejpegurl",
-                        "value": "http://cascam.ou.edu/axis-cgi/jpg/image.cgi?resolution=320x240"
-                    },
-                    {
-                        "key": "localmjpegurl",
-                        "value": "http://cascam.ou.edu/axis-cgi/mjpg/video.cgi?resolution=320x240"
-                    },
-                    {
-                        "key": "remotemjpegurl",
-                        "value": "http://cascam.ou.edu/axis-cgi/mjpg/video.cgi?resolution=320x240"
+                        "value": "http://pouzor.hd.free.fr:8081/image_stream.jpg"
                     }
+
                 ]
             }
         ]
@@ -408,7 +401,7 @@ app.get('/ever1/devices', function (req, res) {
 
 app.get('/ever1/system', function (req, res) {
     res.json({
-        "id": "42:23:23:24:26:29",
+        "id": "42:23:23:24:26:30",
         "apiversion": 1
     });
 });
