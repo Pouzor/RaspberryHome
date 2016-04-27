@@ -22,6 +22,7 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var proc;
 var sockets = {};
+var camera = "0";
 
 //Secu
 app.use(basicAuth(config.auth.username, config.auth.password));
@@ -175,13 +176,14 @@ function setTV(mode) {
 ////////////////////////// STREAM ////////////////////
 
 function stopStreaming() {
+    camera = 0;
     app.set('watchingFile', false);
     if (proc) proc.kill();
     fs.unwatchFile('./stream/image_stream.jpg');
 }
 
 function startStreaming(io) {
-
+    camera = 1;
     if (app.get('watchingFile')) {
         io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
         return;
@@ -403,7 +405,7 @@ app.get('/ever/devices', function (req, res) {
                 "params" : [
                     {
                         "key" : "Status",
-                        "value" : "0"
+                        "value" : camera
                     }
                 ]
             }
