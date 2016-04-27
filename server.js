@@ -362,131 +362,74 @@ app.get('/api/home', function (req, res) {
 
 
 app.get('/ever/devices', function (req, res) {
-	
-	res.json({"devices" : [
-	{
-		"id" : "Temp1",
-		"name" : "Temp1",
-		"room" : "salon",
-		"type" : "DevTempHygro",
-		"params" : [{
-			"key" : "temp",
-			"value" : heaters["salon"].lastTemperature
-		}, {
-			"key" : "hygro",
-			"value" : heaters["salon"].lastHumidity
-		}]
-	},
-    {
-    "id": "dev28",
-      "name": "Home Thermostat",
-      "type": "DevThermostat",
-      "room": "salon",
-      "params": [
-        {
-          "key": "curmode",
-          "value": "Comfort"
-        },
-        {
-          "key": "curfanmode",
-          "value": "Off"
-        },
-        {
-          "key": "curenergymode",
-          "value": "Energy1"
-        },
-        {
-          "key": "curtemp",
-          "value": "19.2",
-          "unit": "Â°C"
-        },
-        {
-          "key": "cursetpoint",
-          "value": "20.3"
-        },
-        {
-          "key": "cursetpoint1",
-          "value": "19.0"
-        },
-        {
-          "key": "cursetpointindex",
-          "value": "0"
-        },
-        {
-          "key": "step",
-          "value": "0.5"
-        },
-        {
-          "key": "minVal",
-          "value": "12.0"
-        },
-        {
-          "key": "maxVal",
-          "value": "28.0"
-        },
-        {
-          "key": "availablemodes",
-          "value": "Comfort,Eco,Off"
-        },
-        {
-          "key": "availablefanmodes",
-          "value": "Off,Middle,High"
-        },
-        {
-          "key": "availableenergymodes",
-          "value": "Energy1,Energy2"
-        }
-      ]
-    },
-    {
-        "id" : "Camera",
-        "name" : "Camera",
-        "room" : "salon",
-        "type" : "DevCamera",
-        "params" : [{
-            "key" : "localjpegurl",
-            "value" : "http://pouzor.hd.free.fr:8081/image_stream.jpg"
-        },
-        {
-            "key" : "remotejpegurl",
-            "value" : "http://pouzor.hd.free.fr:8081/image_stream.jpg"
-        },
-        {
-            "key" : "Login",
-            "value" : ""
-        },
-        {
-            "key" : "Password",
-            "value" : ""
-        }]
-    }
-	]});
+
+    res.json({
+        "devices": [
+            {
+                "id": "Temp1",
+                "name": "Temp1",
+                "room": "salon",
+                "type": "DevTempHygro",
+                "params": [{
+                    "key": "temp",
+                    "value": heaters["salon"].lastTemperature
+                }, {
+                    "key": "hygro",
+                    "value": heaters["salon"].lastHumidity
+                }]
+            },
+            {
+                "id": "dev04",
+                "name": "My Camera",
+                "type": "DevCamera",
+                "room": "salon",
+                "params": [
+                    {
+                        "key": "localjpegurl",
+                        "value": "http://cascam.ou.edu/axis-cgi/jpg/image.cgi?resolution=320x240"
+                    },
+                    {
+                        "key": "remotejpegurl",
+                        "value": "http://cascam.ou.edu/axis-cgi/jpg/image.cgi?resolution=320x240"
+                    },
+                    {
+                        "key": "localmjpegurl",
+                        "value": "http://cascam.ou.edu/axis-cgi/mjpg/video.cgi?resolution=320x240"
+                    },
+                    {
+                        "key": "remotemjpegurl",
+                        "value": "http://cascam.ou.edu/axis-cgi/mjpg/video.cgi?resolution=320x240"
+                    }
+                ]
+            }
+        ]
+    });
 });
 
 app.get('/ever/system', function (req, res) {
-	res.json({
-		"id" : "42:23:23:24:26:28",
-		"apiversion" : 1
-	});
+    res.json({
+        "id": "42:23:23:24:26:28",
+        "apiversion": 1
+    });
 });
 
 app.get('/ever/rooms', function (req, res) {
-	res.json({
-		"rooms": [
-			{
-				"id" : "salon",
-				"name" : "Salon"
-			},
-			{
-				"id" : "chambre 1",
-				"name" : "Chambre parents"
-			},
+    res.json({
+        "rooms": [
             {
-                "id" : "chambre 2",
-                "name" : "Chambre Celia"
+                "id": "salon",
+                "name": "Salon"
+            },
+            {
+                "id": "chambre 1",
+                "name": "Chambre parents"
+            },
+            {
+                "id": "chambre 2",
+                "name": "Chambre Celia"
             }
-		]
-	})
+        ]
+    })
 });
 
 // ============================= Socket ================================== //
