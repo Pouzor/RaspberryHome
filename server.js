@@ -421,12 +421,8 @@ app.get('/ever/rooms', function (req, res) {
                 "name": "Salon"
             },
             {
-                "id": "chambre 1",
+                "id": "chambre1",
                 "name": "Chambre parents"
-            },
-            {
-                "id": "chambre 2",
-                "name": "Chambre Celia"
             }
         ]
     })
