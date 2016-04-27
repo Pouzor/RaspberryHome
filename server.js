@@ -361,7 +361,7 @@ app.get('/api/home', function (req, res) {
 });
 
 
-app.get('/ever1/devices', function (req, res) {
+app.get('/ever/devices', function (req, res) {
 
     res.json({
         "devices": [
@@ -394,19 +394,44 @@ app.get('/ever1/devices', function (req, res) {
                     }
 
                 ]
+            },
+            {
+                "id" : "dev03",
+                "name" : "Camera On/Off",
+                "type" : "DevLock",
+                "room" : "salon",
+                "params" : [
+                    {
+                        "key" : "Status",
+                        "value" : "0"
+                    }
+                ]
             }
         ]
     });
 });
 
-app.get('/ever1/system', function (req, res) {
+app.get('/ever/system', function (req, res) {
     res.json({
         "id": "42:23:23:24:26:30",
         "apiversion": 1
     });
 });
 
-app.get('/ever1/rooms', function (req, res) {
+app.get('/ever/devices/DevLock/action/setStatus/:action', function(req, res) {
+    if (req.params.action == "1"){
+        startStreaming(io);
+    } else {
+        stopStreaming();
+    }
+
+    res.json({
+        "success": true,
+        "errormsg": ""
+    });
+});
+
+app.get('/ever/rooms', function (req, res) {
     res.json({
         "rooms": [
             {
