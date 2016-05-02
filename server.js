@@ -458,7 +458,7 @@ app.get('/ever/devices', function (req, res) {
 					},
 					{
 						"key": "availablemodes",
-						"value": "comfort,eco,Off"
+						"value": "confort,eco,Off"
 					},
 					{
 						"key": "availablefanmodes",
@@ -482,7 +482,7 @@ app.get('/ever/devices', function (req, res) {
 					},
 					{
 						"key" : "Choices",
-						"value" : "eco,comfort,Off"
+						"value" : "eco,confort,Off"
 					}
 				]
 			},
@@ -498,7 +498,7 @@ app.get('/ever/devices', function (req, res) {
 					},
 					{
 						"key" : "Choices",
-						"value" : "eco,comfort,Off"
+						"value" : "eco,confort,Off"
 					}
 				]
 			},
@@ -514,7 +514,7 @@ app.get('/ever/devices', function (req, res) {
 					},
 					{
 						"key" : "Choices",
-						"value" : "eco,comfort,Off"
+						"value" : "eco,confort,Off"
 					}
 				]
 			}
@@ -524,7 +524,7 @@ app.get('/ever/devices', function (req, res) {
 
 app.get('/ever/system', function (req, res) {
     res.json({
-        "id": "42:23:23:24:26:35",
+        "id": "42:23:23:24:26:36",
         "apiversion": 1
     });
 });
