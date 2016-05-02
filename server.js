@@ -408,14 +408,75 @@ app.get('/ever/devices', function (req, res) {
                         "value" : camera
                     }
                 ]
-            }
+            },
+			{
+				"id": "dev04",
+				"name": "Thermostat",
+				"type": "DevThermostat",
+				"room": "salon",
+				"params": [
+					{
+						"key": "curmode",
+						"value": heaters["salon"].mode
+					},
+					{
+						"key": "curfanmode",
+						"value": "Off"
+					},
+					{
+						"key": "curenergymode",
+						"value": "Energy1"
+					},
+					{
+						"key": "curtemp",
+						"value": heaters["salon"].lastTemperature,
+						"unit": "Â°C"
+					},
+					{
+						"key": "cursetpoint",
+						"value": heaters["salon"].temperatureCible
+					},
+					{
+						"key": "cursetpoint1",
+						"value": "19.0"
+					},
+					{
+						"key": "cursetpointindex",
+						"value": "0"
+					},
+					{
+						"key": "step",
+						"value": "0.5"
+					},
+					{
+						"key": "minVal",
+						"value": "12.0"
+					},
+					{
+						"key": "maxVal",
+						"value": "28.0"
+					},
+					{
+						"key": "availablemodes",
+						"value": "comfort,eco,Off"
+					},
+					{
+						"key": "availablefanmodes",
+						"value": "Off,Middle,High"
+					},
+					{
+						"key": "availableenergymodes",
+						"value": "Energy1,Energy2"
+					}
+				]
+			}
         ]
     });
 });
 
 app.get('/ever/system', function (req, res) {
     res.json({
-        "id": "42:23:23:24:26:31",
+        "id": "42:23:23:24:26:32",
         "apiversion": 1
     });
 });
