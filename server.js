@@ -469,6 +469,54 @@ app.get('/ever/devices', function (req, res) {
 						"value": "Energy1,Energy2"
 					}
 				]
+			},
+			{
+				"id" : "dev05",
+				"name" : "Chauffage",
+				"type" : "DevMultiSwitch",
+				"room" : "salon",
+				"params" : [
+					{
+						"key" : "Value",
+						"value" : heaters["salon"].mode
+					},
+					{
+						"key" : "Choices",
+						"value" : "eco,comfort,Off"
+					}
+				]
+			},
+			{
+				"id" : "dev06",
+				"name" : "Chauffage",
+				"type" : "DevMultiSwitch",
+				"room" : "Chambre parents",
+				"params" : [
+					{
+						"key" : "Value",
+						"value" : heaters["chambre 1"].mode
+					},
+					{
+						"key" : "Choices",
+						"value" : "eco,comfort,Off"
+					}
+				]
+			},
+			{
+				"id" : "dev07",
+				"name" : "Chauffage",
+				"type" : "DevMultiSwitch",
+				"room" : "Chambre Celia",
+				"params" : [
+					{
+						"key" : "Value",
+						"value" : heaters["chambre 2"].mode
+					},
+					{
+						"key" : "Choices",
+						"value" : "eco,comfort,Off"
+					}
+				]
 			}
         ]
     });
