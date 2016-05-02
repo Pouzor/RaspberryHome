@@ -472,7 +472,7 @@ app.get('/ever/devices', function (req, res) {
 			},
 			{
 				"id" : "dev05",
-				"name" : "Chauffage",
+				"name" : "Chauffage salon",
 				"type" : "DevMultiSwitch",
 				"room" : "salon",
 				"params" : [
@@ -488,7 +488,7 @@ app.get('/ever/devices', function (req, res) {
 			},
 			{
 				"id" : "dev06",
-				"name" : "Chauffage",
+				"name" : "Chauffage chambre parents",
 				"type" : "DevMultiSwitch",
 				"room" : "chambre1",
 				"params" : [
@@ -504,7 +504,7 @@ app.get('/ever/devices', function (req, res) {
 			},
 			{
 				"id" : "dev07",
-				"name" : "Chauffage",
+				"name" : "Chauffage chambre Celia",
 				"type" : "DevMultiSwitch",
 				"room" : "chambre2",
 				"params" : [
@@ -524,7 +524,7 @@ app.get('/ever/devices', function (req, res) {
 
 app.get('/ever/system', function (req, res) {
     res.json({
-        "id": "42:23:23:24:26:34",
+        "id": "42:23:23:24:26:35",
         "apiversion": 1
     });
 });
@@ -553,7 +553,6 @@ app.get('/ever/rooms', function (req, res) {
                 "id": "chambre1",
                 "name": "Chambre parents"
             },
-			,
             {
                 "id": "chambre2",
                 "name": "Chambre Celia"
