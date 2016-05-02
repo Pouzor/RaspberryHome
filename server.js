@@ -490,7 +490,7 @@ app.get('/ever/devices', function (req, res) {
 				"id" : "dev06",
 				"name" : "Chauffage",
 				"type" : "DevMultiSwitch",
-				"room" : "Chambre parents",
+				"room" : "chambre1",
 				"params" : [
 					{
 						"key" : "Value",
@@ -506,7 +506,7 @@ app.get('/ever/devices', function (req, res) {
 				"id" : "dev07",
 				"name" : "Chauffage",
 				"type" : "DevMultiSwitch",
-				"room" : "Chambre Celia",
+				"room" : "chambre2",
 				"params" : [
 					{
 						"key" : "Value",
@@ -552,6 +552,11 @@ app.get('/ever/rooms', function (req, res) {
             {
                 "id": "chambre1",
                 "name": "Chambre parents"
+            },
+			,
+            {
+                "id": "chambre2",
+                "name": "Chambre Celia"
             }
         ]
     })
