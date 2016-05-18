@@ -539,6 +539,7 @@ app.get('/ever/system', function (req, res) {
     });
 });
 
+//Open camera
 app.get('/ever/devices/dev03/action/setStatus/:action', function(req, res) {
     if (req.params.action == "1"){
         startStreaming(io);
@@ -546,6 +547,16 @@ app.get('/ever/devices/dev03/action/setStatus/:action', function(req, res) {
         stopStreaming();
     }
 
+    res.json({
+        "success": true,
+        "errormsg": ""
+    });
+});
+
+//Set mode salon
+app.get('/ever/devices/dev05/action/setChoice/:action', function(req, res) {
+    
+    setMode(req.params.action, 'salon');
     res.json({
         "success": true,
         "errormsg": ""
