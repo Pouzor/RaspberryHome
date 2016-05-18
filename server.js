@@ -563,7 +563,7 @@ app.get('/ever/devices/dev05/action/setChoice/:action', function(req, res) {
     });
 });
 
-//Set mode salon
+//Set chambre 1
 app.get('/ever/devices/dev06/action/setChoice/:action', function(req, res) {
     
     setMode(req.params.action, 'chambre 1');
@@ -573,7 +573,7 @@ app.get('/ever/devices/dev06/action/setChoice/:action', function(req, res) {
     });
 });
 
-//Set mode salon
+//Set chambre 2
 app.get('/ever/devices/dev07/action/setChoice/:action', function(req, res) {
     
     setMode(req.params.action, 'chambre 2');
