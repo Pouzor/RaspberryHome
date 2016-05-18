@@ -135,12 +135,15 @@ function callChacon(m, room) {
                 console.log(error);
 
             console.log('Send mode chacon 1 : ' + modeActive[m]);
+            setTimeout(function() {
 
-            exec("./scripts/chacon_send/chacon_send 6 12325262 1 " + modeActive[m], function (error, stdout, stderr) {
-                if (error)
-                    console.log(error);
-                console.log('Send mode chacon 2 : ' + modeActive[m]);
-            });
+                exec("./scripts/chacon_send/chacon_send 6 12325262 1 " + modeActive[m], function (error, stdout, stderr) {
+                    if (error)
+                        console.log(error);
+                    console.log('Send mode chacon 2 : ' + modeActive[m]);
+                });
+            }, 2000); 
+            
         });
     } else {
         exec("./scripts/chacon_send/chacon_send 6 " + heaters[room].relais[0] + " 1 " + modeActive[m], function (error, stdout, stderr) {
@@ -202,7 +205,7 @@ function startStreaming(io) {
 
 }
 
-//////////////////////// CRON ///////////////////////
+//////////////////////// SALON ///////////////////////
 
 var semaineStart = new schedule.RecurrenceRule();
 semaineStart.dayOfWeek = [1, 2, 3, 4, 5];
@@ -215,37 +218,12 @@ schedule.scheduleJob(semaineStart, function () {
 
 var semaineStop = new schedule.RecurrenceRule();
 semaineStop.dayOfWeek = [1, 2, 3, 4, 5];
-semaineStop.hour = [8, 1];
+semaineStop.hour = [1, 8];
 semaineStop.minute = 0;
 schedule.scheduleJob(semaineStop, function () {
     console.log('stop mode confort');
     setMode("eco", "salon");
 });
-
-/////////////////////////// CHAMBRE //////////////////////////
-
-var semaineChambreStart = new schedule.RecurrenceRule();
-semaineChambreStart.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
-semaineChambreStart.hour = [17];
-semaineChambreStart.minute = 0;
-schedule.scheduleJob(semaineChambreStart, function () {
-    console.log('Start mode confort chambres');
-    setMode("confort", "chambre 1");
-    setMode("confort", "chambre 2");
-});
-
-var semaineChambreStop = new schedule.RecurrenceRule();
-semaineChambreStop.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
-semaineChambreStop.hour = [8];
-semaineChambreStop.minute = 0;
-schedule.scheduleJob(semaineChambreStop, function () {
-    console.log('stop mode confort chambres');
-    setMode("eco", "chambre 1");
-    setMode("eco", "chambre 2");
-
-});
-
-//////////////////////////////////////////////////////////////
 
 var weStart = new schedule.RecurrenceRule();
 weStart.dayOfWeek = [6, 0];
@@ -264,6 +242,38 @@ schedule.scheduleJob(weStop, function () {
     console.log('stop mode confort WE');
     setMode("eco", "salon");
 });
+
+/////////////////////////// CHAMBRE //////////////////////////
+
+var semaineChambreStart = new schedule.RecurrenceRule();
+semaineChambreStart.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
+semaineChambreStart.hour = [17];
+semaineChambreStart.minute = 0;
+schedule.scheduleJob(semaineChambreStart, function () {
+    console.log('Start mode confort chambres');
+    setMode("confort", "chambre 1");
+    setTimeout(function() {
+        setMode("confort", "chambre 2");
+    }, 2000);    
+    
+});
+
+var semaineChambreStop = new schedule.RecurrenceRule();
+semaineChambreStop.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
+semaineChambreStop.hour = [8];
+semaineChambreStop.minute = 0;
+schedule.scheduleJob(semaineChambreStop, function () {
+    console.log('stop mode confort chambres');
+    setMode("eco", "chambre 1");
+    setTimeout(function() {
+        setMode("eco", "chambre 2");
+    }, 2000);    
+
+});
+
+//////////////////////////////////////////////////////////////
+
+
 
 function getTemperature(save) {
     exec("cat /sys/class/thermal/thermal_zone0/temp", function (error, stdout, stderr) {

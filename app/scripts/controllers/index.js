@@ -20,6 +20,8 @@ app.controller('IndexCtrl', function ($scope, Raspberry, socket) {
 	socket.emit('get-rooms');
 
 
+
+
     socket.on('rooms', function (data) {
 
             if (data.chambre1.mode == 'eco') {
