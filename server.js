@@ -440,7 +440,7 @@ app.get('/ever/devices', function (req, res) {
 					{
 						"key": "curtemp",
 						"value": heaters["salon"].lastTemperature,
-						"unit": "Â°C"
+						"unit": "°C"
 					},
 					{
 						"key": "cursetpoint",
