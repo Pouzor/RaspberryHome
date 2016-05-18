@@ -563,6 +563,26 @@ app.get('/ever/devices/dev05/action/setChoice/:action', function(req, res) {
     });
 });
 
+//Set mode salon
+app.get('/ever/devices/dev06/action/setChoice/:action', function(req, res) {
+    
+    setMode(req.params.action, 'chambre 1');
+    res.json({
+        "success": true,
+        "errormsg": ""
+    });
+});
+
+//Set mode salon
+app.get('/ever/devices/dev07/action/setChoice/:action', function(req, res) {
+    
+    setMode(req.params.action, 'chambre 2');
+    res.json({
+        "success": true,
+        "errormsg": ""
+    });
+});
+
 app.get('/ever/rooms', function (req, res) {
     res.json({
         "rooms": [
