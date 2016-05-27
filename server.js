@@ -62,11 +62,13 @@ var heaters = {
 
 var modeTemp = {
     "confort": 20,
-    "eco": 17
+    "eco": 17,
+    "Off": 10
 };
 var modeActive = {
     "confort": "off",
-    "eco": "on"
+    "eco": "on",
+    "Off": "on"
 };
 
 var client = influx({
@@ -135,15 +137,15 @@ function callChacon(m, room) {
                 console.log(error);
 
             console.log('Send mode chacon 1 : ' + modeActive[m]);
-            setTimeout(function() {
+            setTimeout(function () {
 
                 exec("./scripts/chacon_send/chacon_send 6 12325262 1 " + modeActive[m], function (error, stdout, stderr) {
                     if (error)
                         console.log(error);
                     console.log('Send mode chacon 2 : ' + modeActive[m]);
                 });
-            }, 2000); 
-            
+            }, 2000);
+
         });
     } else {
         exec("./scripts/chacon_send/chacon_send 6 " + heaters[room].relais[0] + " 1 " + modeActive[m], function (error, stdout, stderr) {
@@ -212,8 +214,11 @@ semaineStart.dayOfWeek = [1, 2, 3, 4, 5];
 semaineStart.hour = [6, 17];
 semaineStart.minute = 0;
 schedule.scheduleJob(semaineStart, function () {
-    console.log('Start mode confort');
-    setMode("confort", "salon");
+    if (heaters["salon"].mode != "Off") {
+        console.log('Start mode confort');
+        setMode("confort", "salon");
+    } else
+        console.log("Dont change mode salon cause Off");
 });
 
 var semaineStop = new schedule.RecurrenceRule();
@@ -221,8 +226,11 @@ semaineStop.dayOfWeek = [1, 2, 3, 4, 5];
 semaineStop.hour = [1, 8];
 semaineStop.minute = 0;
 schedule.scheduleJob(semaineStop, function () {
-    console.log('stop mode confort');
-    setMode("eco", "salon");
+    if (heaters["salon"].mode != "Off") {
+        console.log('stop mode confort');
+        setMode("eco", "salon");
+    } else
+        console.log("Dont change mode salon cause Off");
 });
 
 var weStart = new schedule.RecurrenceRule();
@@ -230,8 +238,11 @@ weStart.dayOfWeek = [6, 0];
 weStart.hour = [7];
 weStart.minute = 30;
 schedule.scheduleJob(weStart, function () {
-    console.log('Start mode confort WE');
-    setMode("confort", "salon");
+    if (heaters["salon"].mode != "Off") {
+        console.log('Start mode confort WE');
+        setMode("confort", "salon");
+    } else
+        console.log("Dont change mode salon cause Off");
 });
 
 var weStop = new schedule.RecurrenceRule();
@@ -239,8 +250,11 @@ weStop.dayOfWeek = [6, 0];
 weStop.hour = [1];
 weStop.minute = 10;
 schedule.scheduleJob(weStop, function () {
-    console.log('stop mode confort WE');
-    setMode("eco", "salon");
+    if (heaters["salon"].mode != "Off") {
+        console.log('stop mode confort WE');
+        setMode("eco", "salon");
+    } else
+        console.log("Dont change mode salon cause Off");
 });
 
 /////////////////////////// CHAMBRE //////////////////////////
@@ -250,12 +264,16 @@ semaineChambreStart.dayOfWeek = [1, 2, 3, 4, 5, 6, 7];
 semaineChambreStart.hour = [17];
 semaineChambreStart.minute = 0;
 schedule.scheduleJob(semaineChambreStart, function () {
-    console.log('Start mode confort chambres');
-    setMode("confort", "chambre 1");
-    setTimeout(function() {
-        setMode("confort", "chambre 2");
-    }, 2000);    
-    
+    if (heaters["chambre 1"].mode != "Off") {
+        console.log('Start mode confort chambres');
+        setMode("confort", "chambre 1");
+    }
+    if (heaters["chambre 2"].mode != "Off") {
+        setTimeout(function () {
+            setMode("confort", "chambre 2");
+        }, 2000);
+    }
+
 });
 
 var semaineChambreStop = new schedule.RecurrenceRule();
@@ -264,15 +282,18 @@ semaineChambreStop.hour = [8];
 semaineChambreStop.minute = 0;
 schedule.scheduleJob(semaineChambreStop, function () {
     console.log('stop mode confort chambres');
-    setMode("eco", "chambre 1");
-    setTimeout(function() {
-        setMode("eco", "chambre 2");
-    }, 2000);    
+    if (heaters["chambre 1"].mode != "Off") {
+        setMode("eco", "chambre 1");
+    }
+    if (heaters["chambre 2"].mode != "Off") {
+        setTimeout(function () {
+            setMode("eco", "chambre 2");
+        }, 2000);
+    }
 
 });
 
 //////////////////////////////////////////////////////////////
-
 
 
 function getTemperature(save) {
@@ -408,126 +429,126 @@ app.get('/ever/devices', function (req, res) {
                 ]
             },
             {
-                "id" : "dev03",
-                "name" : "Camera On/Off",
-                "type" : "DevLock",
-                "room" : "salon",
-                "params" : [
+                "id": "dev03",
+                "name": "Camera On/Off",
+                "type": "DevLock",
+                "room": "salon",
+                "params": [
                     {
-                        "key" : "Status",
-                        "value" : camera
+                        "key": "Status",
+                        "value": camera
                     }
                 ]
             },
-			{
-				"id": "dev04",
-				"name": "Thermostat",
-				"type": "DevThermostat",
-				"room": "salon",
-				"params": [
-					{
-						"key": "curmode",
-						"value": heaters["salon"].mode
-					},
-					{
-						"key": "curfanmode",
-						"value": "Off"
-					},
-					{
-						"key": "curenergymode",
-						"value": "Energy1"
-					},
-					{
-						"key": "curtemp",
-						"value": heaters["salon"].lastTemperature,
-						"unit": "°C"
-					},
-					{
-						"key": "cursetpoint",
-						"value": heaters["salon"].temperatureCible
-					},
-					{
-						"key": "cursetpoint1",
-						"value": "19.0"
-					},
-					{
-						"key": "cursetpointindex",
-						"value": "0"
-					},
-					{
-						"key": "step",
-						"value": "0.5"
-					},
-					{
-						"key": "minVal",
-						"value": "12.0"
-					},
-					{
-						"key": "maxVal",
-						"value": "28.0"
-					},
-					{
-						"key": "availablemodes",
-						"value": "confort,eco,Off"
-					},
-					{
-						"key": "availablefanmodes",
-						"value": "Off,Middle,High"
-					},
-					{
-						"key": "availableenergymodes",
-						"value": "Energy1,Energy2"
-					}
-				]
-			},
-			{
-				"id" : "dev05",
-				"name" : "Chauffage salon",
-				"type" : "DevMultiSwitch",
-				"room" : "salon",
-				"params" : [
-					{
-						"key" : "Value",
-						"value" : heaters["salon"].mode
-					},
-					{
-						"key" : "Choices",
-						"value" : "eco,confort,Off"
-					}
-				]
-			},
-			{
-				"id" : "dev06",
-				"name" : "Chauffage chambre parents",
-				"type" : "DevMultiSwitch",
-				"room" : "chambre1",
-				"params" : [
-					{
-						"key" : "Value",
-						"value" : heaters["chambre 1"].mode
-					},
-					{
-						"key" : "Choices",
-						"value" : "eco,confort,Off"
-					}
-				]
-			},
-			{
-				"id" : "dev07",
-				"name" : "Chauffage chambre Celia",
-				"type" : "DevMultiSwitch",
-				"room" : "chambre2",
-				"params" : [
-					{
-						"key" : "Value",
-						"value" : heaters["chambre 2"].mode
-					},
-					{
-						"key" : "Choices",
-						"value" : "eco,confort,Off"
-					}
-				]
-			}
+            {
+                "id": "dev04",
+                "name": "Thermostat",
+                "type": "DevThermostat",
+                "room": "salon",
+                "params": [
+                    {
+                        "key": "curmode",
+                        "value": heaters["salon"].mode
+                    },
+                    {
+                        "key": "curfanmode",
+                        "value": "Off"
+                    },
+                    {
+                        "key": "curenergymode",
+                        "value": "Energy1"
+                    },
+                    {
+                        "key": "curtemp",
+                        "value": heaters["salon"].lastTemperature,
+                        "unit": "°C"
+                    },
+                    {
+                        "key": "cursetpoint",
+                        "value": heaters["salon"].temperatureCible
+                    },
+                    {
+                        "key": "cursetpoint1",
+                        "value": "19.0"
+                    },
+                    {
+                        "key": "cursetpointindex",
+                        "value": "0"
+                    },
+                    {
+                        "key": "step",
+                        "value": "0.5"
+                    },
+                    {
+                        "key": "minVal",
+                        "value": "12.0"
+                    },
+                    {
+                        "key": "maxVal",
+                        "value": "28.0"
+                    },
+                    {
+                        "key": "availablemodes",
+                        "value": "confort,eco,Off"
+                    },
+                    {
+                        "key": "availablefanmodes",
+                        "value": "Off,Middle,High"
+                    },
+                    {
+                        "key": "availableenergymodes",
+                        "value": "Energy1,Energy2"
+                    }
+                ]
+            },
+            {
+                "id": "dev05",
+                "name": "Chauffage salon",
+                "type": "DevMultiSwitch",
+                "room": "salon",
+                "params": [
+                    {
+                        "key": "Value",
+                        "value": heaters["salon"].mode
+                    },
+                    {
+                        "key": "Choices",
+                        "value": "eco,confort,Off"
+                    }
+                ]
+            },
+            {
+                "id": "dev06",
+                "name": "Chauffage chambre parents",
+                "type": "DevMultiSwitch",
+                "room": "chambre1",
+                "params": [
+                    {
+                        "key": "Value",
+                        "value": heaters["chambre 1"].mode
+                    },
+                    {
+                        "key": "Choices",
+                        "value": "eco,confort,Off"
+                    }
+                ]
+            },
+            {
+                "id": "dev07",
+                "name": "Chauffage chambre Celia",
+                "type": "DevMultiSwitch",
+                "room": "chambre2",
+                "params": [
+                    {
+                        "key": "Value",
+                        "value": heaters["chambre 2"].mode
+                    },
+                    {
+                        "key": "Choices",
+                        "value": "eco,confort,Off"
+                    }
+                ]
+            }
         ]
     });
 });
@@ -540,8 +561,8 @@ app.get('/ever/system', function (req, res) {
 });
 
 //Open camera
-app.get('/ever/devices/dev03/action/setStatus/:action', function(req, res) {
-    if (req.params.action == "1"){
+app.get('/ever/devices/dev03/action/setStatus/:action', function (req, res) {
+    if (req.params.action == "1") {
         startStreaming(io);
     } else {
         stopStreaming();
@@ -554,8 +575,8 @@ app.get('/ever/devices/dev03/action/setStatus/:action', function(req, res) {
 });
 
 //Set mode salon
-app.get('/ever/devices/dev05/action/setChoice/:action', function(req, res) {
-    
+app.get('/ever/devices/dev05/action/setChoice/:action', function (req, res) {
+
     setMode(req.params.action, 'salon');
     res.json({
         "success": true,
@@ -564,8 +585,8 @@ app.get('/ever/devices/dev05/action/setChoice/:action', function(req, res) {
 });
 
 //Set chambre 1
-app.get('/ever/devices/dev06/action/setChoice/:action', function(req, res) {
-    
+app.get('/ever/devices/dev06/action/setChoice/:action', function (req, res) {
+
     setMode(req.params.action, 'chambre 1');
     res.json({
         "success": true,
@@ -574,8 +595,8 @@ app.get('/ever/devices/dev06/action/setChoice/:action', function(req, res) {
 });
 
 //Set chambre 2
-app.get('/ever/devices/dev07/action/setChoice/:action', function(req, res) {
-    
+app.get('/ever/devices/dev07/action/setChoice/:action', function (req, res) {
+
     setMode(req.params.action, 'chambre 2');
     res.json({
         "success": true,
