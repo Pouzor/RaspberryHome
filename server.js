@@ -630,7 +630,7 @@ app.get('/ever/rooms', function (req, res) {
 
 // ========================== API SECU ================================== //
 
-app.get('/alarm/:id', function (req, res) {
+app.get('/api/alarm/:id', function (req, res) {
     console.log(req.params.id);
     res.json({
         "ok" : "ok"
