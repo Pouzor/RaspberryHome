@@ -607,6 +607,8 @@ app.get('/ever/devices/dev07/action/setChoice/:action', function (req, res) {
     });
 });
 
+
+
 app.get('/ever/rooms', function (req, res) {
     res.json({
         "rooms": [
@@ -628,6 +630,12 @@ app.get('/ever/rooms', function (req, res) {
 
 // ========================== API SECU ================================== //
 
+app.get('/ever/alarm/:id', function (req, res) {
+    console.log(req.params.id);
+    res.json({
+        "ok" : "ok"
+    })
+});
 
 // ============================= Socket ================================== //
 
